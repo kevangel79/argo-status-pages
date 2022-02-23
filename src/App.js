@@ -1,7 +1,12 @@
+import { ThemeProvider } from '@mui/material/styles';
+import { Button } from '@mui/material';
+import { theme } from './styles/AppStyle'
+
 function App() {
   return (
-    <div className="App">
-    </div>
+    <ThemeProvider theme={theme}>
+      <Button>Press</Button>
+    </ThemeProvider>
   );
 }
 
