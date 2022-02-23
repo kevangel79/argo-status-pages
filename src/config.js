@@ -1,5 +1,6 @@
 const CONFIG = {
-    primaryColor: '#ffaa11',
+    primaryColor: '#ff',
+    headerMenuTextColor: '#000',
 }
 
 export default CONFIG;
