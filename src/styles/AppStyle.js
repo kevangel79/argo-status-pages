@@ -18,6 +18,13 @@ const theme = createTheme({
           },
         },
       },
+      MuiCardHeader: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "#e0e0e0",
+          },
+        },
+      },
       MuiAppBar: {
         styleOverrides: {
           root: {
