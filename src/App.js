@@ -1,9 +1,9 @@
-import { ThemeProvider } from '@mui/material/styles';
-import { theme } from './styles/AppStyle'
 import { useEffect, useState } from 'react';
 import {getStatusServiceGroup} from './api/Manager';
 import Header from "./components/Header";
 import StatusTable from "./components/StatusTable";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [groupStatus, setGroupStatus] = useState({});
@@ -13,10 +13,10 @@ function App() {
   },[]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <div>
       <Header />
       <StatusTable CardHeaderTitle="Current Status by Service" />
-    </ThemeProvider>
+    </div>
   );
 }
 

@@ -1,24 +1,31 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faCircleCheck,
+  faWrench,
+  faFlag,
+  faTriangleExclamation,
+  faCircleMinus,
+} from "@fortawesome/free-solid-svg-icons";
 
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import BuildIcon from "@mui/icons-material/Build";
-import FlagIcon from "@mui/icons-material/Flag";
-import WarningIcon from "@mui/icons-material/Warning";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import styles from "../styles/StatusTable.module.css";
+
+library.add(
+  faCircleCheck,
+  faWrench,
+  faFlag,
+  faTriangleExclamation,
+  faCircleMinus
+);
 
 const StatusTable = (props) => {
   const badges = [
-    { icon: CheckCircleIcon, text: "No Issues", color: "success" },
-    { icon: BuildIcon, text: "Maintenance", color: "action" },
-    { icon: FlagIcon, text: "Notice", color: "info" },
-    { icon: WarningIcon, text: "Incident", color: "warning" },
-    { icon: RemoveCircleIcon, text: "Outage", color: "error" },
+    { icon: "circle-check", text: "No Issues", color: "#27ae60" },
+    { icon: "wrench", text: "Maintenance", color: "#2980b9" },
+    { icon: "flag", text: "Notice", color: "#8e44ad" },
+    { icon: "triangle-exclamation", text: "Incident", color: "#f39c12" },
+    { icon: "circle-minus", text: "Outage", color: "#c0392b" },
   ];
 
   const services = [
@@ -26,125 +33,104 @@ const StatusTable = (props) => {
       name: "Service1",
       status: "No issues",
       description: "Description",
-      icon: CheckCircleIcon,
-      color: "success",
+      icon: "circle-check",
+      color: "#27ae60",
     },
     {
       name: "Service2",
       status: "No issues",
       description: "Description",
-      icon: BuildIcon,
+      icon: "wrench",
       text: "Maintenance",
-      color: "action",
+      color: "#2980b9",
     },
     {
       name: "Service3",
       status: "No issues",
       description: "Description",
-      icon: FlagIcon,
+      icon: "flag",
       text: "Notice",
-      color: "info",
+      color: "#8e44ad",
     },
     {
       name: "Service4",
       status: "No issues",
       description: "Description",
-      icon: WarningIcon,
+      icon: "triangle-exclamation",
       text: "Incident",
-      color: "warning",
+      color: "#f39c12",
     },
     {
       name: "Service5",
       status: "No issues",
       description: "Description",
-      icon: RemoveCircleIcon,
+      icon: "circle-minus",
       text: "Outage",
-      color: "error",
+      color: "#c0392b",
     },
   ];
 
-  const header = (
-    <Grid container spacing={2}>
-      <Grid item xs sx={{ marginTop: "auto", marginBottom: "auto" }}>
-        <Typography
-          sx={{ fontSize: "16px", fontWeight: "700" }}
-          color="#414141"
-        >
+  const legend = (
+    <div
+      className={`${styles["services_legend"]} ${styles["section"]} ${styles["justify_content_center"]}`}
+    >
+      <div className={`${styles["header"]}`}>
+        <span className={`${styles["title"]} ${styles["bold"]}`}>
           Current Status by Service
-        </Typography>
-      </Grid>
-      <Grid item>
-        <Grid container spacing={2}>
+        </span>
+        <div
+          className={`${styles["legend"]} ${styles["flex_row"]} ${styles["align_center"]}`}
+        >
           {badges.map((item) => {
             return (
-              <Grid
-                item
-                sx={{
-                  display: "inline-flex",
-                  marginTop: "auto",
-                  marginBottom: "auto",
-                }}
-                justifyContent="center"
-                alignItems="center"
+              <div
+                className={`${styles["flex_row"]} ${styles["align_center"]}`}
               >
-                <Box component="div" sx={{ display: "inline" }}>
-                  <item.icon fontSize="small" color={item.color} />
-                </Box>
-                <Box component="div" sx={{ display: "inline" }}>
-                  <Typography
-                    sx={{
-                      fontSize: "14px",
-                      fontWeight: "400",
-                      color: "#1d1d1d",
-                    }}
-                    color="text.secondary"
-                  >
-                    {item.text}
-                  </Typography>
-                </Box>
-              </Grid>
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  color={item.color}
+                  size="lg"
+                />
+                <span className={`${styles["tiny"]} ${styles["off_black"]} p-2`}>
+                  {item.text}
+                </span>
+              </div>
             );
           })}
-        </Grid>
-      </Grid>
-    </Grid>
+        </div>
+      </div>
+    </div>
   );
 
   return (
-    <Card>
-      <CardHeader title={header} subheader={props.CardHeaderSubTitle} />
-      <CardContent sx={{ margin: "10px" }}>
-        <Grid container spacing={2}>
+    <div>
+      <div>{legend}</div>
+      <div className={styles.section}>
+        <div className={styles.services}>
           {services.map((item) => {
             return (
-              <Grid item container sx={{ paddingBottom: "16px" }}>
-                <Grid item xs direction="column" spacing={2}>
-                  <Grid item>
-                    <Typography
-                      variant="subtitle1"
-                      component="div"
-                      sx={{
-                        fontSize: "16px",
-                        fontWeight: "700",
-                        color: "#414141",
-                      }}
-                    >
-                      {item.name}
-                    </Typography>
-                    <Typography variant="body2">
-                      {item.status + " " + item.description}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid item>
-                  <item.icon fontSize="medium" color={item.color} />
-                </Grid>
-              </Grid>
+              <div
+                className={`${styles["service"]} ${styles["header"]} ${styles["align"]} ${styles["align_center"]}`}
+              >
+                <div className={styles.flex_column}>
+                  <span className={styles.bold}>{item.name}</span>
+                  <span className={styles.tiny}>{item.status}</span>
+                </div>
+                <div
+                  className={`${styles["flex_row"]} ${styles["align_center"]}`}
+                >
+                  <FontAwesomeIcon
+                    icon={item.icon}
+                    color={item.color}
+                    size="lg"
+                  />
+                </div>
+              </div>
             );
           })}
-        </Grid>
-      </CardContent>
-    </Card>
+        </div>
+      </div>
+    </div>
   );
 };
 
