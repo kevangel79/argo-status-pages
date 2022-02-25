@@ -1,9 +1,9 @@
 import { ThemeProvider } from '@mui/material/styles';
-import { Button } from '@mui/material';
 import { theme } from './styles/AppStyle'
 import { useEffect, useState } from 'react';
 import {getStatusServiceGroup} from './api/Manager';
-
+import Header from "./components/Header";
+import StatusTable from "./components/StatusTable";
 
 function App() {
   const [groupStatus, setGroupStatus] = useState({});
@@ -14,7 +14,8 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Button>Press</Button>
+      <Header />
+      <StatusTable CardHeaderTitle="Current Status by Service" />
     </ThemeProvider>
   );
 }

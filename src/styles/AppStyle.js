@@ -6,9 +6,40 @@ const theme = createTheme({
       primary: {
         main: CONFIG.primaryColor,
       },
-      secondary: {
-        main: '#aaf'
-      }
+    },
+    components: {
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            backgroundColor: CONFIG.primaryColor,
+            width: "80%",
+            marginLeft: "auto",
+            marginRight: "auto"
+          },
+        },
+      },
+      MuiCardHeader: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "#e0e0e0",
+          },
+        },
+      },
+      MuiAppBar: {
+        styleOverrides: {
+          root: {
+            backgroundColor: CONFIG.primaryColor,
+            marginBottom: "20px",
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            color: CONFIG.headerMenuTextColor,
+          },
+        },
+      },
     },
 });
 
