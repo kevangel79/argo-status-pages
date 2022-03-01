@@ -3,25 +3,26 @@ import * as React from "react";
 import { Navbar, Nav, Container, Image, Row, Col } from "react-bootstrap";
 
 import logo from "../assets/logo.svg";
+import styles from "../styles/App.module.css";
 
 const Header = () => {
   return (
-    <Navbar bg="light" expand="lg" className="mb-5">
+    <Navbar expand="lg" className={`${styles["navbar"]} mb-5`}>
       <Container>
         <Navbar.Brand href="#home">
           <Row className="align-items-baseline g-1">
             <Col>
-              <Image fluid src={logo} className="border-end" />
+              <Image src={logo} className={`${styles["navbar-logo"]} border-end`}/>
             </Col>
             <Col>
-              <span>Status</span>
+              <span className={`text-white`}>Status</span>
             </Col>
           </Row>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav>
-            <Nav.Link href="#home">Contact</Nav.Link>
+            <Nav.Link href="#home" className={`text-white`}>Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

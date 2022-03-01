@@ -7,16 +7,18 @@ import {
   faFlag,
   faTriangleExclamation,
   faCircleMinus,
+  faCircleQuestion
 } from "@fortawesome/free-solid-svg-icons";
 
-import styles from "../styles/StatusTable.module.css";
+import styles from "../styles/App.module.css";
 
 library.add(
   faCircleCheck,
   faWrench,
   faFlag,
   faTriangleExclamation,
-  faCircleMinus
+  faCircleMinus,
+  faCircleQuestion
 );
 
 const servicesTransform = (props) => {
@@ -40,10 +42,10 @@ const servicesTransform = (props) => {
       }
     });
     if (flag === false) {
-      return { icon: "circle-check", color: "#27ae60" };
-    } else return { icon: "circle-check", color: "#27ae60" };
+      return { icon: "circle-check", color: "#27ae60", status: "No issues"};
+    } else return { icon: "circle-triangle-exclamation", color: "#f39c12", status: "Incidents" };
   }
-  return { icon: "circle-check", color: "#27ae60" };
+  return { icon: "circle-triangle-exclamation", color: "#f39c12", status: "Incidents" };
 };
 
 const CurrentStatus = (props) => {
@@ -54,28 +56,29 @@ const CurrentStatus = (props) => {
       className={`${styles["section"]} ${styles["align_center"]} ${styles["justify_content_center"]}`}
     >
       {props.groupStatus["groups"] && (
-        <div className={`${styles["container"]}`}>
-          <FontAwesomeIcon icon={status.icon} color={status.color} size={200} />
+        <div className={`${styles["container"]} mb-5`}>
+          <FontAwesomeIcon icon={status.icon} color={status.color}
+            className={`${styles["svg-big"]}`}/>
 
           <h1 className={`${styles["text_center"]} ${styles["width_100"]}`}>
-            Slack is up and running
+            {status.status}
           </h1>
           <p
             className={`${styles["medium"]} ${styles["text_center"]} ${styles["off_gray"]} ${styles["width_100"]}`}
           >
             Having trouble?{" "}
             <a
-              href="https://slack.com/help/articles/205138367-Troubleshoot-connection-issues"
+              href="/"
               className={`${styles["underline"]}`}
             >
               Troubleshoot connection issues
             </a>{" "}
             or email us at{" "}
             <a
-              href="mailto:feedback@slack.com"
+              href="/"
               className={`${styles["underline"]}`}
             >
-              feedback@slack.com
+              test@test.com
             </a>
             .
           </p>

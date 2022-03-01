@@ -463,7 +463,7 @@ p.tiny {
   font-size: 14px;
 }
 .tiny {
-  font-size: 14px;
+  font-size: 12px;
 }
 .section {
   margin-left: auto;
@@ -550,6 +550,15 @@ a.button:hover {
   justify-content: space-between;
   align-items: center;
 }
+.navbar {
+  background: linear-gradient(45deg, #05cae7 0%, #0c2bd5 100%);
+}
+
+.navbar-logo {
+  height: 3em;
+  padding-right: 8px;
+}
+
 .width_100 {
   width: 100%;
 }
@@ -1125,4 +1134,8 @@ a.button:hover {
   text-align: center;
   bottom: 0;
   right: 0;
+}
+
+.svg-big {
+  height: 5em;
 }
