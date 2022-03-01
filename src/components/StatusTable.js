@@ -20,6 +20,7 @@ library.add(
 );
 
 const StatusTable = (props) => {
+  
   const badges = [
     { icon: "circle-check", text: "No Issues", color: "#27ae60" },
     { icon: "wrench", text: "Maintenance", color: "#2980b9" },
@@ -28,47 +29,70 @@ const StatusTable = (props) => {
     { icon: "circle-minus", text: "Outage", color: "#c0392b" },
   ];
 
-  const services = [
-    {
-      name: "Service1",
-      status: "No issues",
-      description: "Description",
-      icon: "circle-check",
-      color: "#27ae60",
-    },
-    {
-      name: "Service2",
-      status: "No issues",
-      description: "Description",
-      icon: "wrench",
-      text: "Maintenance",
-      color: "#2980b9",
-    },
-    {
-      name: "Service3",
-      status: "No issues",
-      description: "Description",
-      icon: "flag",
-      text: "Notice",
-      color: "#8e44ad",
-    },
-    {
-      name: "Service4",
-      status: "No issues",
-      description: "Description",
-      icon: "triangle-exclamation",
-      text: "Incident",
-      color: "#f39c12",
-    },
-    {
-      name: "Service5",
-      status: "No issues",
-      description: "Description",
-      icon: "circle-minus",
-      text: "Outage",
-      color: "#c0392b",
-    },
-  ];
+  const servicesTransform = (props) => {
+    let services = [];
+    if (props.groupStatus["groups"]) {
+      props.groupStatus["groups"].map((item) => {
+        let service = {};
+        let status = item["statuses"].slice(-1)[0]["value"];
+
+        switch (status) {
+          case "OK":
+            service["name"] = item.name.split('_').join(' ');
+            service["status"] = status;
+            service["icon"] = "circle-check";
+            service["color"] = "#27ae60";
+            services.push(service);
+        }
+      });
+      return services;
+    }
+    return services;
+  };
+
+  // const services = [
+  //   {
+  //     name: "Service1",
+  //     status: "No issues",
+  //     description: "Description",
+  //     icon: "circle-check",
+  //     color: "#27ae60",
+  //   },
+  //   {
+  //     name: "Service2",
+  //     status: "No issues",
+  //     description: "Description",
+  //     icon: "wrench",
+  //     text: "Maintenance",
+  //     color: "#2980b9",
+  //   },
+  //   {
+  //     name: "Service3",
+  //     status: "No issues",
+  //     description: "Description",
+  //     icon: "flag",
+  //     text: "Notice",
+  //     color: "#8e44ad",
+  //   },
+  //   {
+  //     name: "Service4",
+  //     status: "No issues",
+  //     description: "Description",
+  //     icon: "triangle-exclamation",
+  //     text: "Incident",
+  //     color: "#f39c12",
+  //   },
+  //   {
+  //     name: "Service5",
+  //     status: "No issues",
+  //     description: "Description",
+  //     icon: "circle-minus",
+  //     text: "Outage",
+  //     color: "#c0392b",
+  //   },
+  // ];
+
+  let services = servicesTransform(props);
 
   const legend = (
     <div
@@ -81,10 +105,11 @@ const StatusTable = (props) => {
         <div
           className={`${styles["legend"]} ${styles["flex_row"]} ${styles["align_center"]}`}
         >
-          {badges.map((item) => {
+          {badges.map((item, index) => {
             return (
               <div
                 className={`${styles["flex_row"]} ${styles["align_center"]}`}
+                key={`badge-${index}`}
               >
                 <FontAwesomeIcon
                   icon={item.icon}
@@ -107,10 +132,11 @@ const StatusTable = (props) => {
       <div>{legend}</div>
       <div className={styles.section}>
         <div className={styles.services}>
-          {services.map((item) => {
+          {services && services.map((item, index) => {
             return (
               <div
                 className={`${styles["service"]} ${styles["header"]} ${styles["align"]} ${styles["align_center"]}`}
+                key={`service-${index}`}
               >
                 <div className={styles.flex_column}>
                   <span className={styles.bold}>{item.name}</span>
