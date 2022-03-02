@@ -7,8 +7,10 @@ import {
   faFlag,
   faTriangleExclamation,
   faCircleMinus,
-  faCircleQuestion
+  faCircleQuestion,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { SERVICES, STATUS, SERVICE_CATEGORIES } from "../config";
 
 import styles from "../styles/App.module.css";
 
@@ -22,33 +24,20 @@ library.add(
 );
 
 const StatusTable = (props) => {
-  
-  const badges = [
-    { icon: "circle-check", text: "OK", color: "#27ae60" },
-    { icon: "wrench", text: "Downtime", color: "#2980b9" },
-    { icon: "flag", text: "Missing", color: "#8e44ad" },
-    { icon: "triangle-exclamation", text: "Warning", color: "#f39c12" },
-    { icon: "circle-minus", text: "Critical", color: "#c0392b" },
-    { icon: "circle-question", text: "Unknown", color: "#95a5a6" },
-  ];
 
   const servicesTransform = (props) => {
     let services = [];
     if (props.groupStatus["groups"]) {
       props.groupStatus["groups"].forEach((item) => {
-        let service = {};
-        let status = item["statuses"].slice(-1)[0]["value"];
-
-        switch (status) {
-          case "OK":
-            service["name"] = item.name.split('_').join(' ');
-            service["status"] = status;
-            service["icon"] = "circle-check";
-            service["color"] = "#27ae60";
-            services.push(service);
-            break;
-          default:
-            break;
+        if (item.name in SERVICES) {
+          let service = {};
+          let status = item["statuses"].slice(-1)[0]["value"];
+          
+          Object.assign(service, STATUS[status]);
+          service["name"] = SERVICES[item.name].fullname;
+          service["status"] = status;
+          service["category"] = SERVICES[item.name].category;
+          services.push(service);
         }
       });
       return services;
@@ -56,32 +45,72 @@ const StatusTable = (props) => {
     return services;
   };
 
+  const servicesGroup = (services) => {
+    let divs = {};
+    Object.keys(SERVICE_CATEGORIES).forEach((category, index) => {
+      if (services) {
+        // divs[category] = [];
+        services.forEach((service, index) => {
+          if (service.category === category) {
+            if (!(category in divs)) {
+              divs[category] = [];
+            }
+            divs[category].push(
+              <div
+                className={`${styles["service"]} ${styles["header"]} ${styles["align"]} ${styles["align_center"]}`}
+                key={`service-${index}`}
+              >
+                <div className={styles.flex_column}>
+                  <span>{service.name}</span>
+                  <span className={styles.tiny}>{service.text}</span>
+                </div>
+                <div
+                  className={`${styles["flex_row"]} ${styles["align_center"]}`}
+                >
+                  <FontAwesomeIcon
+                    icon={service.icon}
+                    color={service.color}
+                    size="lg"
+                  />
+                </div>
+              </div>
+            );
+          }
+        });
+      }
+    });
+    return divs;
+  };
+
   let services = servicesTransform(props);
+  let grouped_services = servicesGroup(services);
 
   const legend = (
     <div
       className={`${styles["services_legend"]} ${styles["section"]} ${styles["justify_content_center"]}`}
     >
       <div className={`${styles["header"]}`}>
-        <span className={`${styles["title"]} ${styles["bold"]}`}>
-          Current Status by Service
+        <span className={`${styles["title"]} ${styles["tiny"]}`}>
+          {/* Last updated: 2022-03-02T10:47:03Z */}
         </span>
         <div
           className={`${styles["legend"]} ${styles["flex_row"]} ${styles["align_center"]}`}
         >
-          {badges.map((item, index) => {
+          {Object.keys(STATUS).map((item, index) => {
             return (
               <div
                 className={`${styles["flex_row"]} ${styles["align_center"]}`}
                 key={`badge-${index}`}
               >
                 <FontAwesomeIcon
-                  icon={item.icon}
-                  color={item.color}
+                  icon={STATUS[item].icon}
+                  color={STATUS[item].color}
                   size="xs"
                 />
-                <span className={`${styles["tiny"]} ${styles["off_black"]} p-2`}>
-                  {item.text}
+                <span
+                  className={`${styles["tiny"]} ${styles["off_black"]} p-2`}
+                >
+                  {item}
                 </span>
               </div>
             );
@@ -95,26 +124,20 @@ const StatusTable = (props) => {
     <div>
       <div>{legend}</div>
       <div className={styles.section}>
-        <div className={styles.services}>
-          {services && services.map((item, index) => {
+        <div>
+          {Object.keys(grouped_services).map((service, index) => {
             return (
-              <div
-                className={`${styles["service"]} ${styles["header"]} ${styles["align"]} ${styles["align_center"]}`}
-                key={`service-${index}`}
-              >
-                <div className={styles.flex_column}>
-                  <span className={styles.bold}>{item.name}</span>
-                  <span className={styles.tiny}>{item.status}</span>
-                </div>
+              <div className={styles.services} key={`group-service-${index}`}>
                 <div
-                  className={`${styles["flex_row"]} ${styles["align_center"]}`}
+                  className={`${styles["service_category_container"]} ${styles["services_legend"]} ${styles["section"]} ${styles["justify_content_center"]}`}
                 >
-                  <FontAwesomeIcon
-                    icon={item.icon}
-                    color={item.color}
-                    size="lg"
-                  />
+                  <div
+                    className={`${styles["service_category_container"]} ${styles["header"]} ${styles["bold"]}`}
+                  >
+                    {service}
+                  </div>
                 </div>
+                {grouped_services[service]}
               </div>
             );
           })}

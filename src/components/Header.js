@@ -22,7 +22,7 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav>
-            <Nav.Link href="#home" className={`text-white`}>Contact</Nav.Link>
+            {/* <Nav.Link href="#home" className={`text-white`}>Contact</Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

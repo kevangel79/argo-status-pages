@@ -1,24 +1,52 @@
-import { useEffect, useState } from 'react';
-import {getStatusServiceGroup} from './api/Manager';
+import { useEffect, useState } from "react";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
+
+import { getStatusServiceGroup } from "./api/Manager";
 import Header from "./components/Header";
 import StatusTable from "./components/StatusTable";
 import CurrentStatus from "./components/CurrentStatus";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [groupStatus, setGroupStatus] = useState({});
 
-  useEffect (() =>{
-    getStatusServiceGroup().then(response => setGroupStatus(response));
-  },[]);
+  useEffect(() => {
+    getStatusServiceGroup().then((response) => setGroupStatus(response));
+  }, []);
 
   return (
-    <div>
-      <Header />
-      <CurrentStatus groupStatus={groupStatus}/>
-      <StatusTable groupStatus={groupStatus} />
-    </div>
+    <BrowserRouter>
+      <div>
+        <Header />
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <div>
+                <CurrentStatus groupStatus={groupStatus} />
+                <StatusTable groupStatus={groupStatus} />
+              </div>
+            }
+          />
+          <Route
+            exact
+            path=":service"
+            element={
+              <div>
+                <CurrentStatus groupStatus={groupStatus} />
+              </div>
+            }
+          />
+          {/* <Navigate to="/" /> */}
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
