@@ -1,150 +1,149 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faCircleCheck,
+  faWrench,
+  faFlag,
+  faTriangleExclamation,
+  faCircleMinus,
+  faCircleQuestion,
+} from "@fortawesome/free-solid-svg-icons";
 
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import BuildIcon from "@mui/icons-material/Build";
-import FlagIcon from "@mui/icons-material/Flag";
-import WarningIcon from "@mui/icons-material/Warning";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { SERVICES, STATUS, SERVICE_CATEGORIES } from "../config";
+
+import styles from "../styles/App.module.css";
+
+library.add(
+  faCircleCheck,
+  faWrench,
+  faFlag,
+  faTriangleExclamation,
+  faCircleMinus,
+  faCircleQuestion
+);
 
 const StatusTable = (props) => {
-  const badges = [
-    { icon: CheckCircleIcon, text: "No Issues", color: "success" },
-    { icon: BuildIcon, text: "Maintenance", color: "action" },
-    { icon: FlagIcon, text: "Notice", color: "info" },
-    { icon: WarningIcon, text: "Incident", color: "warning" },
-    { icon: RemoveCircleIcon, text: "Outage", color: "error" },
-  ];
 
-  const services = [
-    {
-      name: "Service1",
-      status: "No issues",
-      description: "Description",
-      icon: CheckCircleIcon,
-      color: "success",
-    },
-    {
-      name: "Service2",
-      status: "No issues",
-      description: "Description",
-      icon: BuildIcon,
-      text: "Maintenance",
-      color: "action",
-    },
-    {
-      name: "Service3",
-      status: "No issues",
-      description: "Description",
-      icon: FlagIcon,
-      text: "Notice",
-      color: "info",
-    },
-    {
-      name: "Service4",
-      status: "No issues",
-      description: "Description",
-      icon: WarningIcon,
-      text: "Incident",
-      color: "warning",
-    },
-    {
-      name: "Service5",
-      status: "No issues",
-      description: "Description",
-      icon: RemoveCircleIcon,
-      text: "Outage",
-      color: "error",
-    },
-  ];
+  const servicesTransform = (props) => {
+    let services = [];
+    if (props.groupStatus["groups"]) {
+      props.groupStatus["groups"].forEach((item) => {
+        if (item.name in SERVICES) {
+          let service = {};
+          let status = item["statuses"].slice(-1)[0]["value"];
+          
+          Object.assign(service, STATUS[status]);
+          service["name"] = SERVICES[item.name].fullname;
+          service["status"] = status;
+          service["category"] = SERVICES[item.name].category;
+          services.push(service);
+        }
+      });
+      return services;
+    }
+    return services;
+  };
 
-  const header = (
-    <Grid container spacing={2}>
-      <Grid item xs sx={{ marginTop: "auto", marginBottom: "auto" }}>
-        <Typography
-          sx={{ fontSize: "16px", fontWeight: "700" }}
-          color="#414141"
-        >
-          Current Status by Service
-        </Typography>
-      </Grid>
-      <Grid item>
-        <Grid container spacing={2}>
-          {badges.map((item) => {
-            return (
-              <Grid
-                item
-                sx={{
-                  display: "inline-flex",
-                  marginTop: "auto",
-                  marginBottom: "auto",
-                }}
-                justifyContent="center"
-                alignItems="center"
+  const servicesGroup = (services) => {
+    let divs = {};
+    Object.keys(SERVICE_CATEGORIES).forEach((category, index) => {
+      if (services) {
+        // divs[category] = [];
+        services.forEach((service, index) => {
+          if (service.category === category) {
+            if (!(category in divs)) {
+              divs[category] = [];
+            }
+            divs[category].push(
+              <div
+                className={`${styles["service"]} ${styles["header"]} ${styles["align"]} ${styles["align_center"]}`}
+                key={`service-${index}`}
               >
-                <Box component="div" sx={{ display: "inline" }}>
-                  <item.icon fontSize="small" color={item.color} />
-                </Box>
-                <Box component="div" sx={{ display: "inline" }}>
-                  <Typography
-                    sx={{
-                      fontSize: "14px",
-                      fontWeight: "400",
-                      color: "#1d1d1d",
-                    }}
-                    color="text.secondary"
-                  >
-                    {item.text}
-                  </Typography>
-                </Box>
-              </Grid>
+                <div className={styles.flex_column}>
+                  <span>{service.name}</span>
+                  <span className={styles.tiny}>{service.text}</span>
+                </div>
+                <div
+                  className={`${styles["flex_row"]} ${styles["align_center"]}`}
+                >
+                  <FontAwesomeIcon
+                    icon={service.icon}
+                    color={service.color}
+                    size="lg"
+                  />
+                </div>
+              </div>
+            );
+          }
+        });
+      }
+    });
+    return divs;
+  };
+
+  let services = servicesTransform(props);
+  let grouped_services = servicesGroup(services);
+
+  const legend = (
+    <div
+      className={`${styles["services_legend"]} ${styles["section"]} ${styles["justify_content_center"]}`}
+    >
+      <div className={`${styles["header"]}`}>
+        <span className={`${styles["title"]} ${styles["tiny"]}`}>
+          {/* Last updated: 2022-03-02T10:47:03Z */}
+        </span>
+        <div
+          className={`${styles["legend"]} ${styles["flex_row"]} ${styles["align_center"]}`}
+        >
+          {Object.keys(STATUS).map((item, index) => {
+            return (
+              <div
+                className={`${styles["flex_row"]} ${styles["align_center"]}`}
+                key={`badge-${index}`}
+              >
+                <FontAwesomeIcon
+                  icon={STATUS[item].icon}
+                  color={STATUS[item].color}
+                  size="xs"
+                />
+                <span
+                  className={`${styles["tiny"]} ${styles["off_black"]} p-2`}
+                >
+                  {item}
+                </span>
+              </div>
             );
           })}
-        </Grid>
-      </Grid>
-    </Grid>
+        </div>
+      </div>
+    </div>
   );
 
   return (
-    <Card>
-      <CardHeader title={header} subheader={props.CardHeaderSubTitle} />
-      <CardContent sx={{ margin: "10px" }}>
-        <Grid container spacing={2}>
-          {services.map((item) => {
+    <div>
+      <div>{legend}</div>
+      <div className={styles.section}>
+        <div>
+          {Object.keys(grouped_services).map((service, index) => {
             return (
-              <Grid item container sx={{ paddingBottom: "16px" }}>
-                <Grid item xs direction="column" spacing={2}>
-                  <Grid item>
-                    <Typography
-                      variant="subtitle1"
-                      component="div"
-                      sx={{
-                        fontSize: "16px",
-                        fontWeight: "700",
-                        color: "#414141",
-                      }}
-                    >
-                      {item.name}
-                    </Typography>
-                    <Typography variant="body2">
-                      {item.status + " " + item.description}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid item>
-                  <item.icon fontSize="medium" color={item.color} />
-                </Grid>
-              </Grid>
+              <div className={styles.services} key={`group-service-${index}`}>
+                <div
+                  className={`${styles["service_category_container"]} ${styles["services_legend"]} ${styles["section"]} ${styles["justify_content_center"]}`}
+                >
+                  <div
+                    className={`${styles["service_category_container"]} ${styles["header"]} ${styles["bold"]}`}
+                  >
+                    {service}
+                  </div>
+                </div>
+                {grouped_services[service]}
+              </div>
             );
           })}
-        </Grid>
-      </CardContent>
-    </Card>
+        </div>
+      </div>
+    </div>
   );
 };
 
