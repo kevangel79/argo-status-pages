@@ -1,3 +1,8 @@
+:root {
+  --header-gradient-color-start: #05cae7;
+  --header-gradient-color-end: #0c2bd5;
+}
+
 /* External Services */
 .o-content-container {
   margin: 0 auto;
@@ -550,12 +555,13 @@ a.button:hover {
   align-items: center;
 }
 .navbar {
-  background: linear-gradient(45deg, #05cae7 0%, #0c2bd5 100%);
+  background: linear-gradient(45deg, var(--header-gradient-color-start) 0%, var(--header-gradient-color-end) 100%);
 }
 
 .navbar-logo {
   height: 3em;
   padding-right: 8px;
+
 }
 
 .width_100 {
