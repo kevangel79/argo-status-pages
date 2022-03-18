@@ -19,5 +19,19 @@ const getStatusServiceGroup = () => {
 
       return doGet(url, headers);
 }
+
+const getResultServiceGroups = () => {
+  // quickly construct request url
+  let url =
+    "https://" +
+    CONFIG.endpoint +
+    "/api/v2/results/" +
+    CONFIG.reportName +
+    "/NGI" +
+    "?start_time="+getCurrentDate() + "T00:00:00Z"+
+    "&end_time="+getCurrentDate() + "T23:59:59Z"
+
+  return doGet(url, headers);
+}
   
-export {getStatusServiceGroup};
+export {getStatusServiceGroup, getResultServiceGroups};

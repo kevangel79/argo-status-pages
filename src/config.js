@@ -10,27 +10,27 @@ const SERVICES = {
     fullname: "EOSC Messaging System (BO)",
     category: "EOSC Monitoring",
   },
-  EOSC_CORE_MONITORING: {
+  EOSC_Monitoring_Core_Services: {
     fullname: "EOSC Monitoring for Core Services (BO)",
     category: "EOSC Monitoring",
   },
-  EOSC_EXCHANGE_MONITORING: {
+  EOSC_Monitoring_Exchange_Services: {
     fullname: "EOSC Monitoring for Exchange Services (BO)",
     category: "EOSC Monitoring",
   },
   EOSC_Service_Order_Management: {
     fullname: "EOSC Service Order Management Back-Office (BO)",
-    category: "EOSC Order Management",
+    category: "EOSC Service Order Management",
   },
 };
 
 const SERVICE_CATEGORIES = {
   "EOSC Monitoring": [
     "EOSC_Messaging_Service",
-    "EOSC_CORE_MONITORING",
-    "EOSC_EXCHANGE_MONITORING",
+    "EOSC_Monitoring_Core_Services",
+    "EOSC_Monitoring_Exchange_Services",
   ],
-  "EOSC Order Management": ["EOSC_Service_Order_Management"],
+  "EOSC Service Order Management": ["EOSC_Service_Order_Management"],
 };
 
 const STATUS = {
