@@ -34,16 +34,6 @@ function App() {
               </div>
             }
           />
-          <Route
-            exact
-            path=":service"
-            element={
-              <div>
-                <CurrentStatus groupStatus={groupStatus} />
-              </div>
-            }
-          />
-          {/* <Navigate to="/" /> */}
         </Routes>
       </div>
     </BrowserRouter>
