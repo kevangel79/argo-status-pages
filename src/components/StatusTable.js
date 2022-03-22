@@ -32,7 +32,7 @@ const StatusTable = (props) => {
         if (item.name in SERVICES) {
           let service = {};
           let status = item["statuses"].slice(-1)[0]["value"];
-          
+
           Object.assign(service, STATUS[status]);
           service["name"] = SERVICES[item.name].fullname;
           service["status"] = status;
@@ -49,7 +49,6 @@ const StatusTable = (props) => {
     let divs = {};
     Object.keys(SERVICE_CATEGORIES).forEach((category, index) => {
       if (services) {
-        // divs[category] = [];
         services.forEach((service, index) => {
           if (service.category === category) {
             if (!(category in divs)) {
@@ -126,6 +125,33 @@ const StatusTable = (props) => {
       <div className={styles.section}>
         <div>
           {Object.keys(grouped_services).map((service, index) => {
+            let result = {};
+            if (props.groupResults.results) {
+              for (const [index, i] of props.groupResults.results.entries()) {
+                if (i["name"].replace("_", " ") === service) {
+                  result = i["results"][0];
+                  break;
+                }
+              }
+            }
+            let availability = null;
+            let reliability = null;
+            if (result["availability"]) {
+              availability = (
+                <div>
+                <span>Availability: </span>
+                <span>{result["availability"]}</span>
+                <span>%</span>
+                </div>)
+            }
+            if (result["reliability"]) {
+              reliability = (
+                <div>
+                <span>Reliability: </span>
+                <span>{result["reliability"]}</span>
+                <span>%</span>
+                </div>)
+            }
             return (
               <div className={styles.services} key={`group-service-${index}`}>
                 <div
@@ -134,7 +160,11 @@ const StatusTable = (props) => {
                   <div
                     className={`${styles["service_category_container"]} ${styles["header"]} ${styles["bold"]}`}
                   >
-                    {service}
+                    {service} 
+                    <div className={`${styles["service_category_container"]} ${styles["font_weight_regular"]} ${styles["tiny"]}`}>
+                      <span>{availability}</span>
+                      <span>{reliability}</span>
+                    </div>
                   </div>
                 </div>
                 {grouped_services[service]}
