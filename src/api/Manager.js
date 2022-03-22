@@ -3,7 +3,7 @@ import {CONFIG} from '../config';
 const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
-    "x-api-key": ""
+    "x-api-key": process.env.REACT_APP_X_API_KEY
 };
 
 const getStatusServiceGroup = () => {
