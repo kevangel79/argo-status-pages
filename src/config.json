@@ -1,0 +1,39 @@
+{
+  "services": {
+    "EOSC_Messaging_Service": {
+      "fullname": "EOSC Messaging System (BO)",
+      "category": "EOSC Monitoring"
+    },
+    "EOSC_Monitoring_Core_Services": {
+      "fullname": "EOSC Monitoring for Core Services (BO)",
+      "category": "EOSC Monitoring"
+    },
+    "EOSC_Monitoring_Exchange_Services": {
+      "fullname": "EOSC Monitoring for Exchange Services (BO)",
+      "category": "EOSC Monitoring"
+    },
+    "EOSC_Service_Order_Management": {
+      "fullname": "EOSC Service Order Management Back-Office (BO)",
+      "category": "EOSC Service Order Management"
+    }
+  },
+  "service_categories": {
+    "EOSC Monitoring": [
+      "EOSC_Messaging_Service",
+      "EOSC_Monitoring_Core_Services",
+      "EOSC_Monitoring_Exchange_Services"
+    ],
+    "EOSC Service Order Management": [
+      "EOSC_Service_Order_Management"
+    ]
+  },
+  "api": {
+    "endpoint": "localhost/proxy",
+    "reportName": "CORE"
+  },
+  "theme": {
+    "header-gradient-color-start": "#05cae7",
+    "header-gradient-color-end": "#000",
+    "logo": "../assets/logo.png"
+  }
+}

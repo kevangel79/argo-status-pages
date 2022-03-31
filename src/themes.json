@@ -1,7 +1,0 @@
-{
-  "default": {
-    "header-gradient-color-start": "#05cae7",
-    "header-gradient-color-end": "#0c2bd5",
-    "logo": "../assets/logo.png"
-  }
-}

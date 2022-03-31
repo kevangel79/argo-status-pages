@@ -1,44 +1,53 @@
-import {doGet, getCurrentDate} from './Utils';
-import {CONFIG} from '../config';
+import { doGet, getCurrentDate } from "./Utils";
+import { API } from "../config";
+
 const headers = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-    "x-api-key": process.env.REACT_APP_X_API_KEY
+  "Content-Type": "application/json",
+  "x-api-key": process.env.REACT_APP_X_API_KEY,
+  Accept: "application/json",
 };
 
 const getStatusServiceGroup = () => {
-      // quickly construct request url
-      let url =
-        "https://" +
-        CONFIG.endpoint +
-        "/api/v2/status/" +
-        CONFIG.reportName +
-        "/SITES" +
-        "?start_time="+getCurrentDate() + "T00:00:00Z"+
-        "&end_time="+getCurrentDate() + "T23:59:59Z"
+  // quickly construct request url
+  let url =
+    "https://" +
+    API.endpoint +
+    "/api/v2/status/" +
+    API.reportName +
+    "/SITES" +
+    "?start_time=" +
+    getCurrentDate() +
+    "T00:00:00Z" +
+    "&end_time=" +
+    getCurrentDate() +
+    "T23:59:59Z";
 
-      return doGet(url, headers);
-}
+  return doGet(url, headers);
+};
 
 const getResultServiceGroups = () => {
   // quickly construct request url
   let url =
     "https://" +
-    CONFIG.endpoint +
+    API.endpoint +
     "/api/v2/results/" +
-    CONFIG.reportName +
+    API.reportName +
     "/NGI" +
-    "?start_time="+getCurrentDate() + "T00:00:00Z"+
-    "&end_time="+getCurrentDate() + "T23:59:59Z"
+    "?start_time=" +
+    getCurrentDate() +
+    "T00:00:00Z" +
+    "&end_time=" +
+    getCurrentDate() +
+    "T23:59:59Z";
 
   return doGet(url, headers);
-}
+};
 
 const getDowntimes = (date) => {
   // quickly construct request url
   let url =
     "https://" +
-    CONFIG.endpoint +
+    API.endpoint +
     "/api/v2/downtimes" +
     "?date="+date;
 

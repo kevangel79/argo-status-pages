@@ -151,7 +151,7 @@ const StatusTable = (props) => {
             let result = {};
             if (props.groupResults.results) {
               for (const [, i] of props.groupResults.results.entries()) {
-                if (i["name"].replace("_", " ") === service) {
+                if (i.name && i["name"].replace("_", " ") === service) {
                   result = i["results"][0];
                   break;
                 }
