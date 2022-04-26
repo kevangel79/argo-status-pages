@@ -9,6 +9,7 @@ import { getStatusServiceGroup, getResultServiceGroups } from "./api/Manager";
 import Header from "./components/Header";
 import StatusTable from "./components/StatusTable";
 import CurrentStatus from "./components/CurrentStatus";
+import Downtimes from "./components/Downtimes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -36,6 +37,19 @@ function App() {
               <div>
                 <CurrentStatus groupStatus={groupStatus} />
                 <StatusTable groupStatus={groupStatus} groupResults={groupResults} />
+              </div>
+            }
+          />
+          <Route
+            exact
+            path="/downtimes"
+            element={
+              <div>
+                <div className="container">
+                  <div className="card-deck mb-3 text-center">
+                    <Downtimes/>
+                  </div>
+                </div>
               </div>
             }
           />

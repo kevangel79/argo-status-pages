@@ -13,9 +13,9 @@ const Header = () => {
   setThemeValue("header-gradient-color-end", themes["default"]["header-gradient-color-end"]);
 
   return (
-    <Navbar expand="lg" className={`${styles["navbar"]} mb-5`}>
+    <Navbar bg="primary" variant="dark" expand="lg" className={`${styles["navbar"]} mb-5`}>
       <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <Row className="align-items-baseline g-1">
             <Col>
               <Image src={logo} className={`${styles["navbar-logo"]} border-end`}/>
@@ -28,7 +28,8 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav>
-            {/* <Nav.Link href="#home" className={`text-white`}>Contact</Nav.Link> */}
+            <Nav.Link href="/">Dashboard</Nav.Link>
+            <Nav.Link href="downtimes">Downtimes</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
