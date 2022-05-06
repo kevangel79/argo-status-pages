@@ -15,6 +15,18 @@
     "EOSC_Service_Order_Management": {
       "fullname": "EOSC Service Order Management Back-Office (BO)",
       "category": "EOSC Service Order Management"
+    },
+    "EOSC_Core_Topology": {
+      "fullname": "EOSC Core Topology",
+      "category": "EOSC Core Topology"
+    },
+    "EOSC_Service_Catalogue": {
+      "fullname": "EOSC Service Catalogue",
+      "category": "EOSC Resource Catalogue"
+    },
+    "EOSC_Research_Product_Provider_Dashboard": {
+      "fullname": "EOSC Research Product Provider Dashboard",
+      "category": "EOSC Resource Catalogue"
     }
   },
   "service_categories": {
@@ -25,10 +37,17 @@
     ],
     "EOSC Service Order Management": [
       "EOSC_Service_Order_Management"
+    ],
+    "EOSC Core Topology": [
+      "EOSC_Core_Topology"
+    ],
+    "EOSC Resource Catalogue": [
+      "EOSC_Research_Product_Provider_Dashboard",
+      "EOSC_Service_Catalogue"
     ]
   },
   "api": {
-    "endpoint": "localhost/proxy",
+    "endpoint": "api.argo.grnet.gr",
     "reportName": "CORE"
   },
   "theme": {
