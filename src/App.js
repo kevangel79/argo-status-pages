@@ -40,7 +40,6 @@ function App() {
             path="/"
             element={
               <div>
-                <CurrentStatus groupStatus={groupStatus} />
                 <StatusTable groupStatus={groupStatus} groupResults={groupResults} downtimes={downtimes} />
               </div>
             }

@@ -1,9 +1,4 @@
 import config from "./config.json";
-  EOSC_Core_Topology: {
-    fullname: "EOSC Core Topology",
-    category: "EOSC Core Topology",
-  },
-  "EOSC Core Topology": ["EOSC_Core_Topology"],
 
 const STATUS = {
   OK: { icon: "circle-check", text: "OK", color: "#27ae60" },
