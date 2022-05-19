@@ -27,6 +27,26 @@
     "EOSC_Research_Product_Provider_Dashboard": {
       "fullname": "EOSC Research Product Provider Dashboard",
       "category": "EOSC Resource Catalogue"
+    },
+    "EOSC-Helpdesk": {
+      "fullname": "EOSC Helpdesk for Core Services",
+      "category": "EOSC Helpdesk"
+    },
+    "EOSC_Issue_Tracker": {
+      "fullname": "EOSC Issue Tracker",
+      "category": "Collaboration Tools"
+    },
+    "EOSC_Portal": {
+      "fullname": "EOSC Portal",
+      "category": "EOSC Front-Office"
+    },
+    "EOSC_Portal_Catalogue_and_Marketplace": {
+      "fullname": "EOSC Portal Catalogue and Marketplace",
+      "category": "EOSC Front-Office"
+    },
+    "EOSC_Wiki": {
+      "fullname": "EOSC Wiki",
+      "category": "Collaboration Tools"
     }
   },
   "service_categories": {
@@ -44,6 +64,17 @@
     "EOSC Resource Catalogue": [
       "EOSC_Research_Product_Provider_Dashboard",
       "EOSC_Service_Catalogue"
+    ],
+    "EOSC Helpdesk": [
+      "EOSC-Helpdesk"
+    ],
+    "Collaboration Tools": [
+      "EOSC_Issue_Tracker",
+      "EOSC Wiki"
+    ],
+    "EOSC Front-Office": [
+      "EOSC Portal Website",
+      "EOSC Portal Catalogue and Marketplace"
     ]
   },
   "api": {
