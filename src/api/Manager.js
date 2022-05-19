@@ -33,5 +33,16 @@ const getResultServiceGroups = () => {
 
   return doGet(url, headers);
 }
+
+const getDowntimes = (date) => {
+  // quickly construct request url
+  let url =
+    "https://" +
+    CONFIG.endpoint +
+    "/api/v2/downtimes" +
+    "?date="+date;
+
+  return doGet(url, headers);
+}
   
-export {getStatusServiceGroup, getResultServiceGroups};
+export {getStatusServiceGroup, getResultServiceGroups, getDowntimes};

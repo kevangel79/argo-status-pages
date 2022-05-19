@@ -22,6 +22,10 @@ const SERVICES = {
     fullname: "EOSC Service Order Management Back-Office (BO)",
     category: "EOSC Service Order Management",
   },
+  EOSC_Core_Topology: {
+    fullname: "EOSC Core Topology",
+    category: "EOSC Core Topology",
+  },
 };
 
 const SERVICE_CATEGORIES = {
@@ -31,6 +35,7 @@ const SERVICE_CATEGORIES = {
     "EOSC_Monitoring_Exchange_Services",
   ],
   "EOSC Service Order Management": ["EOSC_Service_Order_Management"],
+  "EOSC Core Topology": ["EOSC_Core_Topology"],
 };
 
 const STATUS = {

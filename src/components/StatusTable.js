@@ -8,6 +8,7 @@ import {
   faTriangleExclamation,
   faCircleMinus,
   faCircleQuestion,
+  faCalendarAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { SERVICES, STATUS, SERVICE_CATEGORIES } from "../config";
@@ -20,7 +21,8 @@ library.add(
   faFlag,
   faTriangleExclamation,
   faCircleMinus,
-  faCircleQuestion
+  faCircleQuestion,
+  faCalendarAlt
 );
 
 const StatusTable = (props) => {
@@ -45,7 +47,21 @@ const StatusTable = (props) => {
     return services;
   };
 
-  const servicesGroup = (services) => {
+  const downtimesTransform = (props) => {
+    let downtimes = {};
+    if (props.downtimes[0] !== undefined && props.downtimes[0].endpoints.length > 0) {
+      props.downtimes[0].endpoints.forEach((item) => {
+        if (!(item.service in downtimes)) {
+          downtimes[item.service] = []
+        }
+        downtimes[item.service].push(item)
+      });
+      return downtimes;
+    }
+    return downtimes;
+  };
+
+  const servicesGroup = (services, downtimes) => {
     let divs = {};
     Object.keys(SERVICE_CATEGORIES).forEach((category, index) => {
       if (services) {
@@ -62,6 +78,12 @@ const StatusTable = (props) => {
                 <div className={styles.flex_column}>
                   <span>{service.name}</span>
                   <span className={styles.tiny}>{service.text}</span>
+                  {service.name in downtimes &&
+                  <div>
+                    <span>&#8203;</span>
+                    <span className={styles.tiny}>Scheduled downtime at {downtimes[service.name][0].start_time}</span>
+                  </div>
+                  }
                 </div>
                 <div
                   className={`${styles["flex_row"]} ${styles["align_center"]}`}
@@ -82,7 +104,8 @@ const StatusTable = (props) => {
   };
 
   let services = servicesTransform(props);
-  let grouped_services = servicesGroup(services);
+  let downtimes = downtimesTransform(props);
+  let grouped_services = servicesGroup(services, downtimes);
 
   const legend = (
     <div
@@ -127,7 +150,7 @@ const StatusTable = (props) => {
           {Object.keys(grouped_services).map((service, index) => {
             let result = {};
             if (props.groupResults.results) {
-              for (const [index, i] of props.groupResults.results.entries()) {
+              for (const [, i] of props.groupResults.results.entries()) {
                 if (i["name"].replace("_", " ") === service) {
                   result = i["results"][0];
                   break;
