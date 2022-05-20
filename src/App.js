@@ -5,10 +5,9 @@ import {
   Routes,
 } from "react-router-dom";
 
-import { getStatusServiceGroup, getResultServiceGroups, getDowntimes } from "./api/Manager";
+import { getStatusServiceGroup, getResultServiceGroups, getResultServices } from "./api/Manager";
 import Header from "./components/Header";
 import StatusTable from "./components/StatusTable";
-import CurrentStatus from "./components/CurrentStatus";
 import Downtimes from "./components/Downtimes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,7 +15,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   const [groupStatus, setGroupStatus] = useState({});
   const [groupResults, setGroupResults] = useState({});
-  const [downtimes, setDowntimes] = useState({});
+  const [servicesResults, setServicesResults] = useState({});
 
   useEffect(() => {
     getStatusServiceGroup().then((response) => setGroupStatus(response));
@@ -27,7 +26,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getDowntimes(new Date().toISOString().split('T')[0]).then((response) => setDowntimes(response.data));
+    getResultServices().then((response) => setServicesResults(response));
   }, []);
 
   return (
@@ -40,7 +39,7 @@ function App() {
             path="/"
             element={
               <div>
-                <StatusTable groupStatus={groupStatus} groupResults={groupResults} downtimes={downtimes} />
+                <StatusTable groupStatus={groupStatus} groupResults={groupResults} servicesResults={servicesResults} />
               </div>
             }
           />

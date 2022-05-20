@@ -11,7 +11,8 @@ const STATUS = {
 
 const SERVICES = config.services;
 const SERVICE_CATEGORIES = config.service_categories;
+const NGI_MAPPING = config.ngi_categories;
 const THEME = config.theme;
 const API = config.api;
 
-export { SERVICES, STATUS, SERVICE_CATEGORIES, THEME, API };
+export { SERVICES, STATUS, SERVICE_CATEGORIES, NGI_MAPPING, THEME, API };

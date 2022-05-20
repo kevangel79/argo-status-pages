@@ -25,6 +25,24 @@ const getStatusServiceGroup = () => {
   return doGet(url, headers);
 };
 
+const getResultServices = () => {
+  // quickly construct request url
+  let url =
+    "https://" +
+    API.endpoint +
+    "/api/v2/results/" +
+    API.reportName +
+    "/SITES" +
+    "?start_time=" +
+    getCurrentDate() +
+    "T00:00:00Z" +
+    "&end_time=" +
+    getCurrentDate() +
+    "T23:59:59Z";
+
+  return doGet(url, headers);
+};
+
 const getResultServiceGroups = () => {
   // quickly construct request url
   let url =
@@ -54,4 +72,4 @@ const getDowntimes = (date) => {
   return doGet(url, headers);
 }
   
-export {getStatusServiceGroup, getResultServiceGroups, getDowntimes};
+export {getStatusServiceGroup, getResultServiceGroups, getResultServices, getDowntimes};

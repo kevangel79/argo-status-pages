@@ -17,7 +17,7 @@
       "category": "EOSC Service Order Management"
     },
     "EOSC_Core_Topology": {
-      "fullname": "EOSC Core Topology",
+      "fullname": "EOSC Core Topology (BO)",
       "category": "EOSC Core Topology"
     },
     "EOSC_Service_Catalogue": {
@@ -33,7 +33,7 @@
       "category": "EOSC Helpdesk"
     },
     "EOSC_Issue_Tracker": {
-      "fullname": "EOSC Issue Tracker",
+      "fullname": "EOSC Issue Tracker (Jira)",
       "category": "Collaboration Tools"
     },
     "EOSC_Portal": {
@@ -45,7 +45,7 @@
       "category": "EOSC Front-Office"
     },
     "EOSC_Wiki": {
-      "fullname": "EOSC Wiki",
+      "fullname": "EOSC Wiki (Confluence)",
       "category": "Collaboration Tools"
     }
   },
@@ -66,19 +66,39 @@
       "EOSC_Service_Catalogue"
     ],
     "EOSC Helpdesk": [
-      "EOSC-Helpdesk"
+      "EOSC_Helpdesk"
     ],
     "Collaboration Tools": [
-      "EOSC_Issue_Tracker",
-      "EOSC Wiki"
+      "Collaboration_Tools"
     ],
     "EOSC Front-Office": [
-      "EOSC Portal Website",
-      "EOSC Portal Catalogue and Marketplace"
+      "EOSC_Front-Office"
     ]
   },
+  "ngi_categories": {
+    "EOSC Monitoring":
+      "EOSC Monitoring",
+    "EOSC Service Order Management":
+      "EOSC Order Management"
+    ,
+    "EOSC Core Topology": 
+      "EOSC Topology"
+    ,
+    "EOSC Resource Catalogue": 
+      "EOSC Resource Catalogue"
+    ,
+    "EOSC Helpdesk": 
+      "EOSC Helpdesk"
+    ,
+    "Collaboration Tools": 
+      "Collaboration Tools"
+    ,
+    "EOSC Front-Office": 
+      "EOSC Front-Office"
+    
+  },
   "api": {
-    "endpoint": "api.argo.grnet.gr",
+    "endpoint": "api.devel.argo.grnet.gr",
     "reportName": "CORE"
   },
   "theme": {

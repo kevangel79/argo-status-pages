@@ -11,7 +11,7 @@ import {
   faCalendarAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { SERVICES, STATUS, SERVICE_CATEGORIES } from "../config";
+import { SERVICES, STATUS, SERVICE_CATEGORIES, NGI_MAPPING } from "../config";
 
 import styles from "../styles/App.module.css";
 
@@ -38,6 +38,17 @@ const StatusTable = (props) => {
           Object.assign(service, STATUS[status]);
           service["name"] = SERVICES[item.name].fullname;
           service["status"] = status;
+          if (props.servicesResults.results !== undefined) {
+            props.servicesResults.results.forEach((result, index) => {
+              result.endpoints.forEach((s, index) => {
+                if (s.name === item.name) {
+                  service["results"] = {
+                    "uptime": parseFloat(s.results[0].uptime * 100).toFixed(2)
+                  }
+                }
+              });
+            });
+          }
           service["category"] = SERVICES[item.name].category;
           services.push(service);
         }
@@ -47,21 +58,7 @@ const StatusTable = (props) => {
     return services;
   };
 
-  const downtimesTransform = (props) => {
-    let downtimes = {};
-    if (props.downtimes[0] !== undefined && props.downtimes[0].endpoints.length > 0) {
-      props.downtimes[0].endpoints.forEach((item) => {
-        if (!(item.service in downtimes)) {
-          downtimes[item.service] = []
-        }
-        downtimes[item.service].push(item)
-      });
-      return downtimes;
-    }
-    return downtimes;
-  };
-
-  const servicesGroup = (services, downtimes) => {
+  const servicesGroup = (props, services) => {
     let divs = {};
     Object.keys(SERVICE_CATEGORIES).forEach((category, index) => {
       if (services) {
@@ -76,14 +73,14 @@ const StatusTable = (props) => {
                 key={`service-${index}`}
               >
                 <div className={styles.flex_column}>
-                  <span>{service.name}</span>
-                  <span className={styles.tiny}>{service.text}</span>
-                  {service.name in downtimes &&
+                  <span className={styles.service_name}>{service.name}</span>
                   <div>
-                    <span>&#8203;</span>
-                    <span className={styles.tiny}>Scheduled downtime at {downtimes[service.name][0].start_time}</span>
+                  <span className={styles.tiny}>Uptime: </span>
+                    {service.results ?
+                    <span className={styles.tiny}>{service.results.uptime} %</span>
+                    : null
+                    }
                   </div>
-                  }
                 </div>
                 <div
                   className={`${styles["flex_row"]} ${styles["align_center"]}`}
@@ -104,8 +101,7 @@ const StatusTable = (props) => {
   };
 
   let services = servicesTransform(props);
-  let downtimes = downtimesTransform(props);
-  let grouped_services = servicesGroup(services, downtimes);
+  let grouped_services = servicesGroup(props, services);
 
   const legend = (
     <div
@@ -151,7 +147,7 @@ const StatusTable = (props) => {
             let result = {};
             if (props.groupResults.results) {
               for (const [, i] of props.groupResults.results.entries()) {
-                if (i.name && i["name"].replace("_", " ") === service) {
+                if (i["name"].replaceAll("_", " ") === NGI_MAPPING[service]) {
                   result = i["results"][0];
                   break;
                 }
@@ -163,7 +159,7 @@ const StatusTable = (props) => {
               availability = (
                 <div>
                 <span>Availability: </span>
-                <span>{result["availability"]}</span>
+                <span>{parseFloat(result["availability"]).toFixed(2)}</span>
                 <span>%</span>
                 </div>)
             }
@@ -171,7 +167,7 @@ const StatusTable = (props) => {
               reliability = (
                 <div>
                 <span>Reliability: </span>
-                <span>{result["reliability"]}</span>
+                <span>{parseFloat(result["reliability"]).toFixed(2)}</span>
                 <span>%</span>
                 </div>)
             }
@@ -181,7 +177,7 @@ const StatusTable = (props) => {
                   className={`${styles["service_category_container"]} ${styles["services_legend"]} ${styles["section"]} ${styles["justify_content_center"]}`}
                 >
                   <div
-                    className={`${styles["service_category_container"]} ${styles["header"]} ${styles["bold"]}`}
+                    className={`${styles["service_category_container"]} ${styles["header"]} ${styles["bold"]} ${styles["service_name"]}`}
                   >
                     {service} 
                     <div className={`${styles["service_category_container"]} ${styles["font_weight_regular"]} ${styles["tiny"]}`}>
