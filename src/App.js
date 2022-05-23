@@ -7,6 +7,7 @@ import {
 
 import { getStatusServiceGroup, getResultServiceGroups, getResultServices } from "./api/Manager";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import StatusTable from "./components/StatusTable";
 import Downtimes from "./components/Downtimes";
 
@@ -31,7 +32,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div>
+      <div className="d-flex flex-column min-vh-100">
         <Header />
         <Routes>
           <Route
@@ -57,6 +58,7 @@ function App() {
             }
           />
         </Routes>
+        <Footer />
       </div>
     </BrowserRouter>
   );

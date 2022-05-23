@@ -139,7 +139,7 @@ const StatusTable = (props) => {
   );
 
   return (
-    <div>
+    <div className="mb-5">
       <div>{legend}</div>
       <div className={styles.section}>
         <div>

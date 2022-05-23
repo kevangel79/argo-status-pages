@@ -104,6 +104,9 @@
   "theme": {
     "header-gradient-color-start": "#05cae7",
     "header-gradient-color-end": "#000",
+    "footer-gradient-color-start": "#05cae7",
+    "footer-gradient-color-end": "#000",
+    "footer-copyright-text-color": "#fff",
     "logo": "../assets/logo.png"
   }
 }

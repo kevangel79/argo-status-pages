@@ -1,6 +1,9 @@
 :root {
   --header-gradient-color-start: #05cae7;
   --header-gradient-color-end: #0c2bd5;
+  --footer-gradient-color-start: #05cae7;
+  --footer-gradient-color-end: #0c2bd5;
+  --footer-copyright-text-color: #fff;
 }
 
 /* External Services */
@@ -568,6 +571,21 @@ a.button:hover {
   height: 3em;
   padding-right: 8px;
 
+}
+
+.footer-logo {
+  height: 6em;
+}
+
+.footer {
+  background: linear-gradient(45deg, var(--footer-gradient-color-start) 0%, var(--footer-gradient-color-end) 100%);
+}
+
+.copyright {
+  color: var(--footer-copyright-text-color);
+  height: 6em;
+  text-align: center;
+  line-height: 5rem;
 }
 
 .width_100 {

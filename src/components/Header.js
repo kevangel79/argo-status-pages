@@ -19,7 +19,7 @@ const Header = () => {
               <Image src={"/logo.svg"} className={`${styles["navbar-logo"]} border-end`}/>
             </Col>
             <Col>
-              <span className={`text-white`}>Status</span>
+              <span className={`text-white`}>EOSC Platform (Core) - Status</span>
             </Col>
           </Row>
         </Navbar.Brand>
