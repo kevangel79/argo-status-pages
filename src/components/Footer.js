@@ -2,6 +2,7 @@ import * as React from "react";
 import { Image } from "react-bootstrap";
 import setThemeValue from "../helpers/helpers";
 
+import { COPYRIGHT } from "../config";
 import {THEME} from "../config";
 import styles from "../styles/App.module.css";
 
@@ -20,7 +21,7 @@ const Footer = () => {
           </div>
           <hr className="clearfix w-100 d-md-none pb-3" />
           <div className={`${styles["copyright"]} col-md-6 mb-md-0 mb-3`}>
-            <span>Copyright 2022 - All rights reserved - EOSC Core Monitoring</span>
+            <span>{COPYRIGHT}</span>
           </div>
         </div>
       </div>

@@ -43,7 +43,7 @@ const StatusTable = (props) => {
               result.endpoints.forEach((s, index) => {
                 if (s.name === item.name) {
                   service["results"] = {
-                    "uptime": parseFloat(s.results[0].uptime * 100).toFixed(2)
+                    "uptime": parseFloat(parseFloat(s.results[0].uptime * 100).toFixed(2))
                   }
                 }
               });
@@ -159,7 +159,7 @@ const StatusTable = (props) => {
               availability = (
                 <div>
                 <span>Availability: </span>
-                <span>{parseFloat(result["availability"]).toFixed(2)}</span>
+                <span>{parseFloat(parseFloat(result["availability"]).toFixed(2))}</span>
                 <span>%</span>
                 </div>)
             }
@@ -167,7 +167,7 @@ const StatusTable = (props) => {
               reliability = (
                 <div>
                 <span>Reliability: </span>
-                <span>{parseFloat(result["reliability"]).toFixed(2)}</span>
+                <span>{parseFloat(parseFloat(result["reliability"]).toFixed(2))}</span>
                 <span>%</span>
                 </div>)
             }

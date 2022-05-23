@@ -2,7 +2,7 @@ import * as React from "react";
 import setThemeValue from "../helpers/helpers";
 
 import { Navbar, Nav, Container, Image, Row, Col } from "react-bootstrap";
-
+import { TITLE } from "../config";
 import {THEME} from "../config";
 import styles from "../styles/App.module.css";
 
@@ -19,7 +19,7 @@ const Header = () => {
               <Image src={"/logo.svg"} className={`${styles["navbar-logo"]} border-end`}/>
             </Col>
             <Col>
-              <span className={`text-white`}>EOSC Platform (Core) - Status</span>
+              <span className={`text-white`}>{TITLE}</span>
             </Col>
           </Row>
         </Navbar.Brand>
