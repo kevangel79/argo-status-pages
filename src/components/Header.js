@@ -19,7 +19,7 @@ const Header = () => {
               <Image src={"/logo.svg"} className={`${styles["navbar-logo"]} border-end`}/>
             </Col>
             <Col>
-              <span className={`text-white`}>{TITLE}</span>
+              <span className={`${styles["navbar-title"]} text-white`}>{TITLE}</span>
             </Col>
           </Row>
         </Navbar.Brand>
