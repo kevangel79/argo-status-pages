@@ -1,4 +1,5 @@
 import * as React from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -9,6 +10,7 @@ import {
   faCircleMinus,
   faCircleQuestion,
   faCalendarAlt,
+  faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { SERVICES, STATUS, SERVICE_CATEGORIES, NGI_MAPPING } from "../config";
@@ -22,11 +24,11 @@ library.add(
   faTriangleExclamation,
   faCircleMinus,
   faCircleQuestion,
-  faCalendarAlt
+  faCalendarAlt,
+  faInfoCircle
 );
 
 const StatusTable = (props) => {
-
   const servicesTransform = (props) => {
     let services = [];
     if (props.groupStatus["groups"]) {
@@ -43,8 +45,10 @@ const StatusTable = (props) => {
               result.endpoints.forEach((s, index) => {
                 if (s.name === item.name) {
                   service["results"] = {
-                    "uptime": parseFloat(parseFloat(s.results[0].uptime * 100).toFixed(2))
-                  }
+                    uptime: parseFloat(
+                      parseFloat(s.results[0].uptime * 100).toFixed(2)
+                    ),
+                  };
                 }
               });
             });
@@ -75,11 +79,32 @@ const StatusTable = (props) => {
                 <div className={styles.flex_column}>
                   <span className={styles.service_name}>{service.name}</span>
                   <div>
-                  <span className={styles.tiny}>Uptime: </span>
-                    {service.results ?
-                    <span className={styles.tiny}>{service.results.uptime} %</span>
-                    : null
-                    }
+                    {service.results ? (
+                      <OverlayTrigger
+                        key="uptime-tooltip"
+                        placement="top"
+                        overlay={
+                          <Tooltip id={`uptime-tooltip-top`}>
+                            <strong>Service Uptime</strong> is a performance
+                            metric used to determine the amount of time a
+                            service is operational
+                          </Tooltip>
+                        }
+                      >
+                        <div>
+                          <FontAwesomeIcon
+                            icon="info-circle"
+                            color="gray"
+                            size="xs"
+                          />
+                          <span className={styles.tiny}>&nbsp;Uptime: </span>
+
+                          <span className={styles.tiny}>
+                            {service.results.uptime} %
+                          </span>
+                        </div>
+                      </OverlayTrigger>
+                    ) : null}
                   </div>
                 </div>
                 <div
@@ -158,18 +183,26 @@ const StatusTable = (props) => {
             if (result["availability"]) {
               availability = (
                 <div>
-                <span>Availability: </span>
-                <span>{parseFloat(parseFloat(result["availability"]).toFixed(2))}</span>
-                <span>%</span>
-                </div>)
+                  <FontAwesomeIcon icon="info-circle" color="gray" size="xs" />
+                  <span>&nbsp;Availability: </span>
+                  <span>
+                    {parseFloat(parseFloat(result["availability"]).toFixed(2))}
+                  </span>
+                  <span>%</span>
+                </div>
+              );
             }
             if (result["reliability"]) {
               reliability = (
                 <div>
-                <span>Reliability: </span>
-                <span>{parseFloat(parseFloat(result["reliability"]).toFixed(2))}</span>
-                <span>%</span>
-                </div>)
+                  <FontAwesomeIcon icon="info-circle" color="gray" size="xs" />
+                  <span>&nbsp;Reliability: </span>
+                  <span>
+                    {parseFloat(parseFloat(result["reliability"]).toFixed(2))}
+                  </span>
+                  <span>%</span>
+                </div>
+              );
             }
             return (
               <div className={styles.services} key={`group-service-${index}`}>
@@ -179,10 +212,41 @@ const StatusTable = (props) => {
                   <div
                     className={`${styles["service_category_container"]} ${styles["header"]} ${styles["bold"]} ${styles["service_name"]}`}
                   >
-                    {service} 
-                    <div className={`${styles["service_category_container"]} ${styles["font_weight_regular"]} ${styles["tiny"]}`}>
-                      <span>{availability}</span>
-                      <span>{reliability}</span>
+                    <div>{service}</div>
+                    <div
+                      className={`${styles["service_category_container"]} ${styles["font_weight_regular"]} ${styles["tiny"]}`}
+                    >
+                      {availability ? (
+                        <OverlayTrigger
+                          key="availability-tooltip"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`availability-tooltip-top`}>
+                              <strong>Service Availability</strong> is the
+                              fraction of time a service was in the UP Period
+                              during the known interval in a given period.
+                            </Tooltip>
+                          }
+                        >
+                          {availability}
+                        </OverlayTrigger>
+                      ) : null}
+                      {reliability ? (
+                        <OverlayTrigger
+                          key="reliability-tooltip"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`reliability-tooltip-top`}>
+                              <strong>Service reliability</strong> is the ratio
+                              of the time interval a service was UP over the
+                              time interval it was supposed (scheduled) to be UP
+                              in the given period.
+                            </Tooltip>
+                          }
+                        >
+                          {reliability}
+                        </OverlayTrigger>
+                      ) : null}
                     </div>
                   </div>
                 </div>
