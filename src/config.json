@@ -1,0 +1,114 @@
+{
+  "services": {
+    "EOSC_Messaging_Service": {
+      "fullname": "EOSC Messaging System (BO)",
+      "category": "EOSC Monitoring"
+    },
+    "EOSC_Monitoring_Core_Services": {
+      "fullname": "EOSC Monitoring for Core Services (BO)",
+      "category": "EOSC Monitoring"
+    },
+    "EOSC_Monitoring_Exchange_Services": {
+      "fullname": "EOSC Monitoring for Exchange Services (BO)",
+      "category": "EOSC Monitoring"
+    },
+    "EOSC_Service_Order_Management": {
+      "fullname": "EOSC Service Order Management Back-Office (BO)",
+      "category": "EOSC Service Order Management"
+    },
+    "EOSC_Core_Topology": {
+      "fullname": "EOSC Core Topology (BO)",
+      "category": "EOSC Core Topology"
+    },
+    "EOSC_Service_Catalogue": {
+      "fullname": "EOSC Service Catalogue",
+      "category": "EOSC Resource Catalogue"
+    },
+    "EOSC_Research_Product_Provider_Dashboard": {
+      "fullname": "EOSC Research Product Provider Dashboard",
+      "category": "EOSC Resource Catalogue"
+    },
+    "EOSC-Helpdesk": {
+      "fullname": "EOSC Helpdesk for Core Services",
+      "category": "EOSC Helpdesk"
+    },
+    "EOSC_Issue_Tracker": {
+      "fullname": "EOSC Issue Tracker (Jira)",
+      "category": "Collaboration Tools"
+    },
+    "EOSC_Portal": {
+      "fullname": "EOSC Portal",
+      "category": "EOSC Front-Office"
+    },
+    "EOSC_Portal_Catalogue_and_Marketplace": {
+      "fullname": "EOSC Portal Catalogue and Marketplace",
+      "category": "EOSC Front-Office"
+    },
+    "EOSC_Wiki": {
+      "fullname": "EOSC Wiki (Confluence)",
+      "category": "Collaboration Tools"
+    }
+  },
+  "service_categories": {
+    "EOSC Monitoring": [
+      "EOSC_Messaging_Service",
+      "EOSC_Monitoring_Core_Services",
+      "EOSC_Monitoring_Exchange_Services"
+    ],
+    "EOSC Service Order Management": [
+      "EOSC_Service_Order_Management"
+    ],
+    "EOSC Core Topology": [
+      "EOSC_Core_Topology"
+    ],
+    "EOSC Resource Catalogue": [
+      "EOSC_Research_Product_Provider_Dashboard",
+      "EOSC_Service_Catalogue"
+    ],
+    "EOSC Helpdesk": [
+      "EOSC_Helpdesk"
+    ],
+    "Collaboration Tools": [
+      "Collaboration_Tools"
+    ],
+    "EOSC Front-Office": [
+      "EOSC_Front-Office"
+    ]
+  },
+  "ngi_categories": {
+    "EOSC Monitoring":
+      "EOSC Monitoring",
+    "EOSC Service Order Management":
+      "EOSC Order Management"
+    ,
+    "EOSC Core Topology": 
+      "EOSC Topology"
+    ,
+    "EOSC Resource Catalogue": 
+      "EOSC Resource Catalogue"
+    ,
+    "EOSC Helpdesk": 
+      "EOSC Helpdesk"
+    ,
+    "Collaboration Tools": 
+      "Collaboration Tools"
+    ,
+    "EOSC Front-Office": 
+      "EOSC Front-Office"
+    
+  },
+  "api": {
+    "endpoint": "api.devel.argo.grnet.gr",
+    "reportName": "CORE"
+  },
+  "title": "Test Status Page",
+  "copyright": "Copyright 2022 - All rights reserved - EOSC Core Monitoring",
+  "theme": {
+    "header-gradient-color-start": "#05cae7",
+    "header-gradient-color-end": "#000",
+    "footer-gradient-color-start": "#05cae7",
+    "footer-gradient-color-end": "#000",
+    "footer-copyright-text-color": "#fff",
+    "logo": "../assets/logo.png"
+  }
+}

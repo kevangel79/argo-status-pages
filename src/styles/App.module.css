@@ -1,6 +1,9 @@
 :root {
   --header-gradient-color-start: #05cae7;
   --header-gradient-color-end: #0c2bd5;
+  --footer-gradient-color-start: #05cae7;
+  --footer-gradient-color-end: #0c2bd5;
+  --footer-copyright-text-color: #fff;
 }
 
 /* External Services */
@@ -570,6 +573,45 @@ a.button:hover {
 
 }
 
+@media screen and (min-width: 24rem) {
+  .navbar-title {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 767px) {
+  .navbar-title {
+    font-size: 1.25rem;
+  }
+}
+
+.footer-logo {
+  height: 6em;
+}
+
+.footer {
+  background: linear-gradient(45deg, var(--footer-gradient-color-start) 0%, var(--footer-gradient-color-end) 100%);
+}
+
+@media screen and (min-width: 24rem) {
+  .copyright {
+    color: var(--footer-copyright-text-color);
+    height: 6em;
+    text-align: center;
+    line-height: 5rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (min-width: 767px) {
+  .copyright {
+    color: var(--footer-copyright-text-color);
+    height: 6em;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+}
+
 .width_100 {
   width: 100%;
 }
@@ -865,6 +907,13 @@ a.button:hover {
 /*
  CALENDAR TOOLTIPS END
  */
+
+ @media screen and (min-width: 24rem) {
+  .navbar-title {
+    font-size: 1rem;
+  }
+}
+
 .services_legend .header {
   background-color: #dfdfdf;
   padding-left: 20px;
@@ -885,19 +934,20 @@ a.button:hover {
   margin-right: 3px;
   transform: scale(0.8);
 }
-@media (min-width: 768px) {
-  .services_legend .header {
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-content: center;
-    height: 74px;
-  }
-  .services_legend .legend {
-    flex-basis: 100%;
-    display: flex;
-    margin-top: 5px;
-  }
+
+.services_legend .header {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: center;
+  height: 74px;
 }
+.services_legend .legend {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+
 @media (min-width: 1072px) {
   .services_legend .header {
     height: 56px;
@@ -909,12 +959,17 @@ a.button:hover {
 }
 
 .services .service {
-  padding: 20px;
+  padding: 10px 10px 10px 20px;
   border-style: solid;
   border-color: #e8e8e8;
   border-width: 0 1px 1px 0;
   width: 100%;
 }
+
+.service_name {
+  font-size: 1rem;
+}
+
 @media (min-width: 1072px) {
   .services .service {
     width: 50%;
@@ -1155,7 +1210,4 @@ a.button:hover {
   padding-left: 0;
   padding-right: 0;
   background-color: #f5f5f5 !important;
-}
-
-.service_category_header {
 }

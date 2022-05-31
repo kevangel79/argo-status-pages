@@ -1,4 +1,5 @@
 import * as React from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -9,9 +10,10 @@ import {
   faCircleMinus,
   faCircleQuestion,
   faCalendarAlt,
+  faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { SERVICES, STATUS, SERVICE_CATEGORIES } from "../config";
+import { SERVICES, STATUS, SERVICE_CATEGORIES, NGI_MAPPING } from "../config";
 
 import styles from "../styles/App.module.css";
 
@@ -22,11 +24,11 @@ library.add(
   faTriangleExclamation,
   faCircleMinus,
   faCircleQuestion,
-  faCalendarAlt
+  faCalendarAlt,
+  faInfoCircle
 );
 
 const StatusTable = (props) => {
-
   const servicesTransform = (props) => {
     let services = [];
     if (props.groupStatus["groups"]) {
@@ -38,6 +40,19 @@ const StatusTable = (props) => {
           Object.assign(service, STATUS[status]);
           service["name"] = SERVICES[item.name].fullname;
           service["status"] = status;
+          if (props.servicesResults.results !== undefined) {
+            props.servicesResults.results.forEach((result, index) => {
+              result.endpoints.forEach((s, index) => {
+                if (s.name === item.name) {
+                  service["results"] = {
+                    uptime: parseFloat(
+                      parseFloat(s.results[0].uptime * 100).toFixed(2)
+                    ),
+                  };
+                }
+              });
+            });
+          }
           service["category"] = SERVICES[item.name].category;
           services.push(service);
         }
@@ -47,21 +62,7 @@ const StatusTable = (props) => {
     return services;
   };
 
-  const downtimesTransform = (props) => {
-    let downtimes = {};
-    if (props.downtimes[0] !== undefined && props.downtimes[0].endpoints.length > 0) {
-      props.downtimes[0].endpoints.forEach((item) => {
-        if (!(item.service in downtimes)) {
-          downtimes[item.service] = []
-        }
-        downtimes[item.service].push(item)
-      });
-      return downtimes;
-    }
-    return downtimes;
-  };
-
-  const servicesGroup = (services, downtimes) => {
+  const servicesGroup = (props, services) => {
     let divs = {};
     Object.keys(SERVICE_CATEGORIES).forEach((category, index) => {
       if (services) {
@@ -76,14 +77,35 @@ const StatusTable = (props) => {
                 key={`service-${index}`}
               >
                 <div className={styles.flex_column}>
-                  <span>{service.name}</span>
-                  <span className={styles.tiny}>{service.text}</span>
-                  {service.name in downtimes &&
+                  <span className={styles.service_name}>{service.name}</span>
                   <div>
-                    <span>&#8203;</span>
-                    <span className={styles.tiny}>Scheduled downtime at {downtimes[service.name][0].start_time}</span>
+                    {service.results ? (
+                      <OverlayTrigger
+                        key="uptime-tooltip"
+                        placement="top"
+                        overlay={
+                          <Tooltip id={`uptime-tooltip-top`}>
+                            <strong>Service Uptime</strong> is a performance
+                            metric used to determine the amount of time a
+                            service is operational
+                          </Tooltip>
+                        }
+                      >
+                        <div>
+                          <FontAwesomeIcon
+                            icon="info-circle"
+                            color="gray"
+                            size="xs"
+                          />
+                          <span className={styles.tiny}>&nbsp;Uptime: </span>
+
+                          <span className={styles.tiny}>
+                            {service.results.uptime} %
+                          </span>
+                        </div>
+                      </OverlayTrigger>
+                    ) : null}
                   </div>
-                  }
                 </div>
                 <div
                   className={`${styles["flex_row"]} ${styles["align_center"]}`}
@@ -104,8 +126,7 @@ const StatusTable = (props) => {
   };
 
   let services = servicesTransform(props);
-  let downtimes = downtimesTransform(props);
-  let grouped_services = servicesGroup(services, downtimes);
+  let grouped_services = servicesGroup(props, services);
 
   const legend = (
     <div
@@ -143,7 +164,7 @@ const StatusTable = (props) => {
   );
 
   return (
-    <div>
+    <div className="mb-5">
       <div>{legend}</div>
       <div className={styles.section}>
         <div>
@@ -151,7 +172,7 @@ const StatusTable = (props) => {
             let result = {};
             if (props.groupResults.results) {
               for (const [, i] of props.groupResults.results.entries()) {
-                if (i["name"].replace("_", " ") === service) {
+                if (i["name"].replaceAll("_", " ") === NGI_MAPPING[service]) {
                   result = i["results"][0];
                   break;
                 }
@@ -162,18 +183,26 @@ const StatusTable = (props) => {
             if (result["availability"]) {
               availability = (
                 <div>
-                <span>Availability: </span>
-                <span>{result["availability"]}</span>
-                <span>%</span>
-                </div>)
+                  <FontAwesomeIcon icon="info-circle" color="gray" size="xs" />
+                  <span>&nbsp;Availability: </span>
+                  <span>
+                    {parseFloat(parseFloat(result["availability"]).toFixed(2))}
+                  </span>
+                  <span>%</span>
+                </div>
+              );
             }
             if (result["reliability"]) {
               reliability = (
                 <div>
-                <span>Reliability: </span>
-                <span>{result["reliability"]}</span>
-                <span>%</span>
-                </div>)
+                  <FontAwesomeIcon icon="info-circle" color="gray" size="xs" />
+                  <span>&nbsp;Reliability: </span>
+                  <span>
+                    {parseFloat(parseFloat(result["reliability"]).toFixed(2))}
+                  </span>
+                  <span>%</span>
+                </div>
+              );
             }
             return (
               <div className={styles.services} key={`group-service-${index}`}>
@@ -181,12 +210,43 @@ const StatusTable = (props) => {
                   className={`${styles["service_category_container"]} ${styles["services_legend"]} ${styles["section"]} ${styles["justify_content_center"]}`}
                 >
                   <div
-                    className={`${styles["service_category_container"]} ${styles["header"]} ${styles["bold"]}`}
+                    className={`${styles["service_category_container"]} ${styles["header"]} ${styles["bold"]} ${styles["service_name"]}`}
                   >
-                    {service} 
-                    <div className={`${styles["service_category_container"]} ${styles["font_weight_regular"]} ${styles["tiny"]}`}>
-                      <span>{availability}</span>
-                      <span>{reliability}</span>
+                    <div>{service}</div>
+                    <div
+                      className={`${styles["service_category_container"]} ${styles["font_weight_regular"]} ${styles["tiny"]}`}
+                    >
+                      {availability ? (
+                        <OverlayTrigger
+                          key="availability-tooltip"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`availability-tooltip-top`}>
+                              <strong>Service Availability</strong> is the
+                              fraction of time a service was in the UP Period
+                              during the known interval in a given period.
+                            </Tooltip>
+                          }
+                        >
+                          {availability}
+                        </OverlayTrigger>
+                      ) : null}
+                      {reliability ? (
+                        <OverlayTrigger
+                          key="reliability-tooltip"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`reliability-tooltip-top`}>
+                              <strong>Service reliability</strong> is the ratio
+                              of the time interval a service was UP over the
+                              time interval it was supposed (scheduled) to be UP
+                              in the given period.
+                            </Tooltip>
+                          }
+                        >
+                          {reliability}
+                        </OverlayTrigger>
+                      ) : null}
                     </div>
                   </div>
                 </div>
