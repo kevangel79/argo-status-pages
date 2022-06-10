@@ -99,7 +99,8 @@
   },
   "api": {
     "endpoint": "api.devel.argo.grnet.gr",
-    "reportName": "CORE"
+    "reportName": "CORE",
+    "groupType": "SERVICEGROUPS"
   },
   "title": "Test Status Page",
   "copyright": "Copyright 2022 - All rights reserved - EOSC Core Monitoring",

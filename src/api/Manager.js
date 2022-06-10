@@ -14,7 +14,7 @@ const getStatusServiceGroup = () => {
     API.endpoint +
     "/api/v2/status/" +
     API.reportName +
-    "/SITES" +
+    "/" + API.groupType +
     "?start_time=" +
     getCurrentDate() +
     "T00:00:00Z" +
@@ -32,7 +32,7 @@ const getResultServices = () => {
     API.endpoint +
     "/api/v2/results/" +
     API.reportName +
-    "/SITES" +
+    "/" + API.groupType +
     "?start_time=" +
     getCurrentDate() +
     "T00:00:00Z" +
