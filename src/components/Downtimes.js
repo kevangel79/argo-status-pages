@@ -86,7 +86,7 @@ const Downtimes = (props) => {
 
   useEffect(() => {
     getDowntimes(startDate.toISOString().split('T')[0]).then((response) => setDowntimes(response.data));
-  }, []);
+  }, [startDate]);
 
   let downtimesArray = <div>No downtimes are scheduled</div>;
   if (Array.isArray(downtimes) && downtimes[0].endpoints.length > 0) {
