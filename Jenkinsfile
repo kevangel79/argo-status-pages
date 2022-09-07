@@ -8,17 +8,19 @@ pipeline {
         PROJECT_DIR='argo-status-pages'
     }
     stages {
-        stage ('Run argo-status-pages ansible-playbook for each tenant') {
+        stage ('Build and Deploy argo-status-pages') {
             agent {
                 docker {
-                    image 'node:buster'
+                    image 'node:lts-buster'
                 }
             }
             steps {
-                git "https://github.com/ARGOeu/argo-ansible.git"
-                withCredentials([file(credentialsId: 'vault-argo', variable: 'vault_file')]) {
-                    sh 'ansible-playbook -v -i argo-status-pages --vault-password-file $vault_file argo-status-pages.yml'
-                }
+                echo 'Build argo-status-pages'
+                    sh '''
+                        cd $WORKSPACE/$PROJECT_DIR
+                        npm install
+                        npm run build
+                    '''
             }
         }
     }
