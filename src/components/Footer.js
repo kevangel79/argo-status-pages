@@ -5,6 +5,7 @@ import setThemeValue from "../helpers/helpers";
 import { COPYRIGHT } from "../config";
 import {THEME} from "../config";
 import styles from "../styles/App.module.css";
+import FOOTER_LOGO from "../assets/footer_logo.svg"
 
 
 const Footer = () => {
@@ -17,7 +18,7 @@ const Footer = () => {
       <div className="container-fluid text-center text-md-left">
         <div className="row">
           <div className="col-md-6 mt-md-0 mt-3">
-            <Image src={"/footer_logo.svg"} className={`${styles["footer-logo"]}`}/>
+            <Image src={FOOTER_LOGO} className={`${styles["footer-logo"]}`}/>
           </div>
           <hr className="clearfix w-100 d-md-none pb-3" />
           <div className={`${styles["copyright"]} col-md-6 mb-md-0 mb-3`}>
