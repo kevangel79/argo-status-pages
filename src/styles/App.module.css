@@ -1211,3 +1211,201 @@ a.button:hover {
   padding-right: 0;
   background-color: #f5f5f5 !important;
 }
+
+.uptime-90-days-wrapper {
+  padding-top: 5px;
+  margin-bottom: -2px;
+}
+
+.uptime-90-days-wrapper svg {
+  margin:0;
+  padding:0;
+  height:34px;
+  width:100%;
+  overflow:hidden;
+  cursor: pointer;
+ }
+
+ .uptime-90-days-wrapper svg rect:hover {
+  fill:#7f8c8d;
+ }
+
+ .uptime-90-days-wrapper .legend {
+  display:flex;
+  display:-ms-flexbox;
+  flex-direction:row;
+  justify-content:space-between;
+  position:relative;
+  top:5px
+ }
+
+ .uptime-90-days-wrapper .legend .legend-item {
+  flex:0 0 auto;
+  font-size:.875rem;
+  position:relative;
+  color:#aaa;
+  opacity:0.8
+ }
+ .uptime-90-days-wrapper .legend .legend-item.light {
+  color:#aaa;
+  opacity:0.5
+ }
+ .uptime-90-days-wrapper .legend .spacer {
+  flex:1;
+  margin:0.75rem 1rem 0 1rem;
+  height:1px;
+  background:#aaa;
+  opacity:0.3
+ }
+ .decorated:hover {
+  text-decoration: underline;
+  cursor: pointer;
+ }
+
+
+ /* Uptime Tooltip */
+ .pointer-container {
+  position:absolute;
+  height:10px;
+  bottom: -30;
+  z-index:1001
+ }
+ .pointer-smaller,
+ .pointer-larger {
+  bottom:0;
+  height:0;
+  width:0;
+  position:absolute;
+  pointer-events:none
+ }
+ .pointer-smaller {
+  border:8px solid transparent;
+  border-bottom-color:white;
+  margin-left:1px;
+  margin-bottom:-1px
+ }
+ .pointer-larger {
+  border:9px solid transparent;
+  border-bottom-color:rgba(0,0,0,0.1)
+ }
+ .tooltip-box {
+  box-shadow:0 3px 6px rgba(0,0,0,0.15);
+  border:1px solid rgba(0,0,0,0.2);
+  background-color:white;
+  border-radius:3px;
+  position:absolute;
+  width:325px;
+  padding:15px;
+  z-index:2
+ }
+ .tooltip-close {
+  position:absolute;
+  top:0.25rem;
+  right:0.25rem;
+  width:24px;
+  text-align:center;
+  cursor:pointer
+ }
+ .tooltip-close.hidden {
+  display:none
+ }
+ .tooltip-close i {
+  color:#ccc;
+  margin:0
+ }
+ .tooltip-content {
+  color:#637280;
+ }
+
+ .date {
+  margin-left:15px;
+  margin-bottom:0;
+  font-size:14px;
+  font-weight:500
+ }
+ .outage-field {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-weight:500;
+  margin:10px 0;
+  background-color:#f4f5f7;
+  border:1px solid rgba(255,255,255,0);
+  padding:9px 14px 8px 14px;
+  border-radius:2px;
+  height:40px
+ }
+ .outage-field span {
+  line-height:16px
+ }
+ .outage-field .value-hrs {
+  margin-right:0.25rem
+ }
+ .outage-field .value-hrs,
+ .outage-field .value-mins {
+  display:inline-block
+ }
+ .outage-field .label {
+  margin-right:1rem
+ }
+ .related-events {
+  padding-left:15px
+ }
+ .related-events #related-event-header {
+  font-size:13px;
+  line-height:19.9875px;
+  font-size:0.8125rem;
+  line-height:1.24921875rem;
+  font-weight:450;
+  color:#a9a9a9;
+  margin-bottom:10px;
+  letter-spacing:0.6px;
+  margin-top:19px;
+  text-transform:uppercase
+ }
+ .related-events .related-event {
+  line-height:18px;
+  margin-bottom:12px
+ }
+ .related-events .related-event .related-event-link {
+  font-size:13px;
+  line-height:19.9875px;
+  font-size:0.8125rem;
+  line-height:1.24921875rem;
+  color:#333;
+  cursor:pointer
+ }
+ .related-events .related-event .related-event-link:hover {
+  text-decoration:underline
+ }
+ .related-events .related-event:last-of-type {
+  margin-bottom:2px
+ }
+ .no-outages-msg,
+ .no-data-msg,
+ .outage-count {
+  font-size:14.8px;
+  line-height:22.422px;
+  font-size:0.925rem;
+  line-height:1.401375rem;
+  margin:10px 0px 2px 15px
+ }
+ .outage-count .count {
+  font-weight:500
+ }
+ .no-related-msg {
+  margin-left:15px
+ }
+ .no-related-msg p {
+  font-size:13px;
+  margin-bottom:0
+ }
+ i {
+  margin-right:8px
+ }
+ i.partial_outage {
+  color:#ffab00
+ }
+ i.major_outage {
+  color:#de350b
+ }

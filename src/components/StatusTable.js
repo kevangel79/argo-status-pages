@@ -1,5 +1,6 @@
 import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -29,6 +30,8 @@ library.add(
 );
 
 const StatusTable = (props) => {
+  const navigate = useNavigate();
+
   const servicesTransform = (props) => {
     let services = [];
     if (props.groupStatus["groups"]) {
@@ -39,6 +42,7 @@ const StatusTable = (props) => {
 
           Object.assign(service, STATUS[status]);
           service["name"] = SERVICES[item.name].fullname;
+          service["original_name"] = item.name;
           service["status"] = status;
           if (props.servicesResults.results !== undefined) {
             props.servicesResults.results.forEach((result, index) => {
@@ -91,17 +95,24 @@ const StatusTable = (props) => {
                           </Tooltip>
                         }
                       >
-                        <div>
-                          <FontAwesomeIcon
-                            icon="info-circle"
-                            color="gray"
-                            size="xs"
-                          />
-                          <span className={styles.tiny}>&nbsp;Uptime: </span>
+                        <div className={styles.decorated} 
+                        onClick={() =>
+                          navigate(
+                            "/uptime/" + service.original_name
+                          )
+                        }>
+                          <div>
+                            <FontAwesomeIcon
+                              icon="info-circle"
+                              color="gray"
+                              size="xs"
+                            />
+                            <span className={styles.tiny}>&nbsp;Uptime: </span>
 
-                          <span className={styles.tiny}>
-                            {service.results.uptime} %
-                          </span>
+                            <span className={styles.tiny}>
+                              {service.results.uptime} %
+                            </span>
+                          </div>
                         </div>
                       </OverlayTrigger>
                     ) : null}

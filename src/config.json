@@ -2,7 +2,7 @@
   "services": {
     "EOSC_Messaging_Service": {
       "fullname": "EOSC Messaging System (BO)",
-      "category": "EOSC Monitoring"
+      "category": "EOSC Messaging"
     },
     "EOSC_Monitoring_Core_Services": {
       "fullname": "EOSC Monitoring for Core Services (BO)",
@@ -51,9 +51,11 @@
   },
   "service_categories": {
     "EOSC Monitoring": [
-      "EOSC_Messaging_Service",
       "EOSC_Monitoring_Core_Services",
       "EOSC_Monitoring_Exchange_Services"
+    ],
+    "EOSC Messagging": [
+      "EOSC_Messaging_Service"
     ],
     "EOSC Service Order Management": [
       "EOSC_Service_Order_Management"
@@ -81,6 +83,9 @@
     "EOSC Service Order Management":
       "EOSC Order Management"
     ,
+    "EOSC Messaging":
+      "EOSC Messaging"
+    ,
     "EOSC Core Topology": 
       "EOSC Topology"
     ,
@@ -100,7 +105,7 @@
   "api": {
     "endpoint": "api.devel.argo.grnet.gr",
     "reportName": "CORE",
-    "groupType": "SERVICEGROUPS"
+    "groupType": "SITES"
   },
   "title": "Test Status Page",
   "copyright": "Copyright 2022 - All rights reserved - EOSC Core Monitoring",
