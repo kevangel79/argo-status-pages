@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getResultServicesRanged } from "../api/Manager";
+import { getReports, getResultServicesRanged } from "../api/Manager";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCircleCheck,
@@ -11,7 +11,7 @@ import {
 
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "../styles/App.module.css";
-import { SERVICES, NGI_MAPPING } from "../config";
+import { SERVICES, NGI_MAPPING, API } from "../config";
 
 library.add(faCircleCheck, faCalendar, faRecycle);
 
@@ -22,6 +22,19 @@ const Uptime = (props) => {
   const [servicesResults, setServicesResults] = useState({});
   useEffect(() => {
     getResultServicesRanged(90).then((response) => setServicesResults(response));
+  }, []);
+
+  const [thresholds, setThresholds] = useState({});
+  useEffect(() => {
+    getReports().then((response) => {
+      if (response.data) {
+        response.data.forEach((r) => {
+          if (r.info.name === API.reportName) {
+            setThresholds(r.thresholds)
+          }
+        });
+      }
+    });
   }, []);
 
   const filterServiceResults = () => {
@@ -47,9 +60,9 @@ const Uptime = (props) => {
     let sum = 0;
     if (results !== undefined) {
       results.forEach((r) => {
-        sum += parseInt(r.uptime);
+        sum += parseFloat(r.uptime);
       });
-      return ((sum / results.length) * 100).toFixed(1);
+      return ((sum / results.length) * 100).toFixed(2);
     }
     return "";
   }
@@ -82,11 +95,24 @@ const Uptime = (props) => {
       if (parseInt(results[i].unknown) === 1) {
         fill = "##8e44ad";
       }
-      else if (parseFloat(results[i].uptime) < 1) {
+      else if (
+        parseFloat(results[i].uptime) ||
+        parseFloat(results[i].availability) ||
+        parseFloat(results[i].reliability) 
+      ) {
+        if (
+          (parseFloat(thresholds.uptime) + 0.01 < 1 && parseFloat(results[i].uptime) <= parseFloat(thresholds.uptime) + 0.01) ||
+          (parseFloat(thresholds.availability) + 2 < 1 && parseFloat(results[i].availability) <= parseFloat(thresholds.availability) + 2) ||
+          (parseFloat(thresholds.reliability) + 2 < 1 && parseFloat(results[i].reliability) <= parseFloat(thresholds.reliability) + 2)
+        )
         fill = "#e67e22";
       }
-      else if (parseFloat(results[i].uptime) < 0.95) {
-        fill = "#e67e22";
+      else if (
+        parseFloat(results[i].uptime) <= thresholds.uptime ||
+        parseFloat(results[i].availability) <= thresholds.availability ||
+        parseFloat(results[i].reliability) <= thresholds.reliability
+      ) {
+        fill = "#e74c3c";
       }
       else {
         fill = "#16a085";
@@ -112,10 +138,10 @@ const Uptime = (props) => {
           <div>
             <ul>
               <li >
-                <span>Uptime: {parseFloat(result.uptime * 100).toFixed(1)} %</span>
+                <span>Uptime: {parseFloat(result.uptime * 100).toFixed(2)} %</span>
               </li>
-              <li><span>Availability: {parseFloat(result.availability).toFixed(1)} %</span></li>
-              <li><span>Reliability: {parseFloat(result.reliability).toFixed(1)} %</span></li>
+              <li><span>Availability: {parseFloat(result.availability).toFixed(2)} %</span></li>
+              <li><span>Reliability: {parseFloat(result.reliability).toFixed(2)} %</span></li>
               <li><span>Downtime: {result.downtime}</span></li>
 
             </ul>

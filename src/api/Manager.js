@@ -89,5 +89,15 @@ const getDowntimes = (date) => {
 
   return doGet(url, headers);
 }
+
+const getReports = () => {
+  // quickly construct request url
+  let url =
+    "https://" +
+    API.endpoint +
+    "/api/v2/reports";
+
+  return doGet(url, headers);
+};
   
-export {getStatusServiceGroup, getResultServiceGroups, getResultServices, getDowntimes, getResultServicesRanged};
+export {getStatusServiceGroup, getResultServiceGroups, getResultServices, getDowntimes, getResultServicesRanged, getReports};
