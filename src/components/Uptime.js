@@ -102,10 +102,13 @@ const Uptime = (props) => {
       ) {
         if (
           (parseFloat(thresholds.uptime) + 0.01 < 1 && parseFloat(results[i].uptime) <= parseFloat(thresholds.uptime) + 0.01) ||
-          (parseFloat(thresholds.availability) + 2 < 1 && parseFloat(results[i].availability) <= parseFloat(thresholds.availability) + 2) ||
-          (parseFloat(thresholds.reliability) + 2 < 1 && parseFloat(results[i].reliability) <= parseFloat(thresholds.reliability) + 2)
+          (parseFloat(thresholds.availability) + 2 < 100 && parseFloat(results[i].availability) <= parseFloat(thresholds.availability) + 2) ||
+          (parseFloat(thresholds.reliability) + 2 < 100 && parseFloat(results[i].reliability) <= parseFloat(thresholds.reliability) + 2)
         )
         fill = "#e67e22";
+        else {
+          fill = "#16a085";
+        }
       }
       else if (
         parseFloat(results[i].uptime) <= thresholds.uptime ||
