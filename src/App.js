@@ -63,7 +63,7 @@ function App() {
             path="/uptime/:service"
             element={
               <div>
-                <div className="container">
+                <div className="container-lg">
                   <div className="card-deck mb-3 text-center">
                     <Uptime servicesResults={servicesResults}/>
                   </div>

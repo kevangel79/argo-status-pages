@@ -15,9 +15,15 @@ import { SERVICES, NGI_MAPPING, API } from "../config";
 
 library.add(faCircleCheck, faCalendar, faRecycle);
 
+function getWindowSize() {
+  const {innerWidth, innerHeight} = window;
+  return {innerWidth, innerHeight};
+}
 
 const Uptime = (props) => {
   const { service } = useParams();
+
+  const [windowSize, setWindowSize] = useState(getWindowSize());
 
   const [servicesResults, setServicesResults] = useState({});
   useEffect(() => {
@@ -35,6 +41,18 @@ const Uptime = (props) => {
         });
       }
     });
+  }, []);
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
   }, []);
 
   const filterServiceResults = () => {
@@ -56,9 +74,9 @@ const Uptime = (props) => {
     }
   }
 
-  const calculateAverageUptime = () => {
+  const calculateAverageUptime = (results) => {
     let sum = 0;
-    if (results !== undefined) {
+    if (results !== undefined && results.length > 0) {
       results.forEach((r) => {
         sum += parseFloat(r.uptime);
       });
@@ -79,7 +97,8 @@ const Uptime = (props) => {
 
 
   let days = [];
-  let marginx = 0;
+  let days30 = [];
+  let fill = "#16a085";
   const [hovering, setHovering] = useState(false);
   const [result, setResult] = useState({});
 
@@ -87,11 +106,13 @@ const Uptime = (props) => {
     setHovering(true);
     setResult(r);
   }
-  const mouseOut = () => setHovering(false)
+  const mouseOut = () => {
+    setHovering(false);
+  }
 
-  if (results !== undefined) {
-    let fill = "#16a085";
-    for (var i = 0; i < results.length; i++) {
+  const prepareDays = (vec, num) => {
+    let marginx = 0;
+    for (var i = results.length - num; i < results.length; i++) {
       if (parseInt(results[i].unknown) === 1) {
         fill = "##8e44ad";
       }
@@ -120,10 +141,17 @@ const Uptime = (props) => {
       else {
         fill = "#16a085";
       }
-      days.push(<rect key={`day-${i}`} onMouseOver={mouseOver.bind(this, results[i])}
-        onMouseOut={mouseOut} height="34" width="2" x={`${marginx}`} y="0" fill={fill} className={`uptime-day component-0mw0pdgvs1l3 day-${i}`} data-html="true"></rect>);
-      marginx += 3;
+      vec.push(<rect key={`day-${i}`} onMouseOver={mouseOver.bind(this, results[i])} onMouseOut={mouseOut}
+       height="34" width="5" x={`${marginx}`} y="0" fill={fill} className={`uptime-day component-0mw0pdgvs1l3 day day-${i}`} data-html="true"></rect>);
+       vec.push(<rect key={`mday-${i}`} onMouseOver={mouseOver.bind(this, results[i])}
+       height="34" width="3" x={`${marginx+5}`} y="0" fill="#fff" data-html="true"></rect>);
+      marginx += 8;
     }
+  }
+
+  if (results !== undefined) {
+    prepareDays(days, 90);
+    prepareDays(days30, 50);
   }
 
   const tooltip = (
@@ -132,13 +160,13 @@ const Uptime = (props) => {
         <div className={`${styles["pointer-larger"]}`}></div>
         <div className={`${styles["pointer-smaller"]}`}></div>
       </div>
-      <div className={`${styles["tooltip-box"]}`} style={{ top: 110, left: coords.x - 162 }}>
+      <div className={`${styles["tooltip-box"]}`} style={{ top: 110, left: coords.x - 160 }}>
         <div className={`${styles["tooltip-content"]}`}>
           <div className={`${styles["tooltip-close"]} ${styles["hidden"]}`}>
             <i className="fa fa-times"></i>
           </div>
           <div className={`${styles["date"]}`}>{result.timestamp}</div>
-          <div>
+          <div style={{"textAlign": "initial", marginTop: "0.5rem"}}>
             <ul>
               <li >
                 <span>Uptime: {parseFloat(result.uptime * 100).toFixed(2)} %</span>
@@ -164,17 +192,31 @@ const Uptime = (props) => {
           <h5>{props.hostname}</h5>
         </div>
         <div className={`${styles["uptime-90-days-wrapper"]}`}>
-          <svg id="uptime-component-0mw0pdgvs1l3" preserveAspectRatio="none" height="34" viewBox={"-120 0 500 34"} onMouseMove={handleMouseMove}>
+        { windowSize.innerWidth > 800 ?
+          <svg id="uptime-component-0mw0pdgvs1l3" preserveAspectRatio="none" height="34" viewBox={"0 0 720 34"} onMouseMove={handleMouseMove}>
             {days}
           </svg>
+          : 
+          <svg id="uptime-component-0mw0pdgvs1l3" preserveAspectRatio="none" height="34" viewBox={"0 0 400 34"} onMouseMove={handleMouseMove}>
+            {days30}
+          </svg>
+        }
           <div className={`${styles["legend"]}`}>
             <div className={`${styles["legend-item"]} ${styles["light"]} ${styles["legend-item-date-range"]}`}>
-              <span className={`${styles["availability-time-line-legend-day-count"]}`}>{results && results.length}</span> days ago
+            { windowSize.innerWidth > 800 ?
+              <div><span className={`${styles["availability-time-line-legend-day-count"]}`}>{results && results.length}</span> days ago</div>
+              :
+              <div><span className={`${styles["availability-time-line-legend-day-count"]}`}>50</span> days ago</div>
+            }
             </div>
             <div className={`${styles["spacer"]}`}></div>
             <div className={`${styles["legend-item"]} ${styles["legend-item-uptime-value"]}`}>
               <span id="uptime-percent-0mw0pdgvs1l3">
-                <var data-var="uptime-percent">{calculateAverageUptime()}</var>
+              { windowSize.innerWidth > 800?
+                <var data-var="uptime-percent">{calculateAverageUptime(results)}</var>
+                :
+                <var data-var="uptime-percent">{calculateAverageUptime(results.slice(-50))}</var>
+              }
               </span>
               % uptime
             </div>

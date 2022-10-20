@@ -1221,12 +1221,11 @@ a.button:hover {
   margin:0;
   padding:0;
   height:34px;
-  width:100%;
   overflow:hidden;
   cursor: pointer;
  }
 
- .uptime-90-days-wrapper svg rect:hover {
+ .uptime-day day:hover {
   fill:#7f8c8d;
  }
 
@@ -1320,8 +1319,8 @@ a.button:hover {
  .date {
   margin-left:15px;
   margin-bottom:0;
-  font-size:14px;
-  font-weight:500
+  font-size:16px;
+  font-weight:bold
  }
  .outage-field {
   display:flex;
