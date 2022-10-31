@@ -12,6 +12,7 @@ import {
   faCircleQuestion,
   faCalendarAlt,
   faInfoCircle,
+  faArrowUpRightFromSquare
 } from "@fortawesome/free-solid-svg-icons";
 
 import { SERVICES, STATUS, SERVICE_CATEGORIES, NGI_MAPPING } from "../config";
@@ -26,7 +27,8 @@ library.add(
   faCircleMinus,
   faCircleQuestion,
   faCalendarAlt,
-  faInfoCircle
+  faInfoCircle,
+  faArrowUpRightFromSquare
 );
 
 const StatusTable = (props) => {
@@ -84,37 +86,50 @@ const StatusTable = (props) => {
                   <span className={styles.service_name}>{service.name}</span>
                   <div>
                     {service.results ? (
-                      <OverlayTrigger
-                        key="uptime-tooltip"
-                        placement="top"
-                        overlay={
-                          <Tooltip id={`uptime-tooltip-top`}>
-                            <strong>Service Uptime</strong> is a performance
-                            metric used to determine the amount of time a
-                            service is operational
-                          </Tooltip>
-                        }
-                      >
-                        <div className={styles.decorated} 
-                        onClick={() =>
+                      <div className={`${styles["uptime-container"]}`}>
+                        <OverlayTrigger
+                          key="uptime-tooltip"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`uptime-tooltip-top`}>
+                              <strong>Service Uptime</strong> is a performance
+                              metric used to determine the amount of time a
+                              service is operational
+                            </Tooltip>
+                          }
+                        >
+                          <div className={`${styles["uptime-inner-container"]}`}>
+                            <span>
+                              <FontAwesomeIcon
+                                icon="info-circle"
+                                color="gray"
+                                size="xs"
+                              />
+                            </span>
+                            <span className={styles.tiny}>Daily uptime:</span>
+
+                            <span className={styles.tiny}>
+                              {service.results.uptime}%
+                            </span>
+                          </div>
+                        </OverlayTrigger>
+                        <div className={`${styles["tiny"]} ${styles["cursor"]}`} onClick={() =>
                           navigate(
                             "/uptime/" + service.original_name
                           )
                         }>
-                          <div>
+                          <span>
                             <FontAwesomeIcon
-                              icon="info-circle"
+                              icon="arrow-up-right-from-square"
                               color="gray"
-                              size="xs"
+                              size="sm"
                             />
-                            <span className={styles.tiny}>&nbsp;Uptime: </span>
-
-                            <span className={styles.tiny}>
-                              {service.results.uptime} %
-                            </span>
-                          </div>
+                          </span>
+                          <span>
+                            More history
+                          </span>
                         </div>
-                      </OverlayTrigger>
+                      </div>
                     ) : null}
                   </div>
                 </div>

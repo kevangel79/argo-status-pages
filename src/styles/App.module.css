@@ -1256,10 +1256,30 @@ a.button:hover {
   background:#aaa;
   opacity:0.3
  }
- .decorated:hover {
+ .cursor-decorated:hover {
   text-decoration: underline;
   cursor: pointer;
  }
+
+ .cursor:hover {
+  cursor: pointer;
+ }
+
+ .uptime-container {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+ }
+
+ .uptime-inner-container {
+  display: flex;
+  align-items: center;
+ }
+
+ span + span {
+  margin-left: 0.1rem;
+}
+
 
 
  /* Uptime Tooltip */
