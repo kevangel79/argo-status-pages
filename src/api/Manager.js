@@ -1,4 +1,4 @@
-import { doGet, getCurrentDate } from "./Utils";
+import { doGet, getCurrentDate, getDayBeforeCurrentDate } from "./Utils";
 import { API } from "../config";
 
 const headers = {
@@ -43,6 +43,24 @@ const getResultServices = () => {
   return doGet(url, headers);
 };
 
+const getResultServicesRanged = (daysnum) => {
+  // quickly construct request url
+  let url =
+    "https://" +
+    API.endpoint +
+    "/api/v2/results/" +
+    API.reportName +
+    "/" + API.groupType +
+    "?start_time=" +
+    getDayBeforeCurrentDate(daysnum) +
+    "T00:00:00Z" +
+    "&end_time=" +
+    getCurrentDate() +
+    "T23:59:59Z";
+
+  return doGet(url, headers);
+};
+
 const getResultServiceGroups = () => {
   // quickly construct request url
   let url =
@@ -71,5 +89,15 @@ const getDowntimes = (date) => {
 
   return doGet(url, headers);
 }
+
+const getReports = () => {
+  // quickly construct request url
+  let url =
+    "https://" +
+    API.endpoint +
+    "/api/v2/reports";
+
+  return doGet(url, headers);
+};
   
-export {getStatusServiceGroup, getResultServiceGroups, getResultServices, getDowntimes};
+export {getStatusServiceGroup, getResultServiceGroups, getResultServices, getDowntimes, getResultServicesRanged, getReports};

@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import StatusTable from "./components/StatusTable";
 import Downtimes from "./components/Downtimes";
+import Uptime from "./components/Uptime";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -52,6 +53,19 @@ function App() {
                 <div className="container">
                   <div className="card-deck mb-3 text-center">
                     <Downtimes/>
+                  </div>
+                </div>
+              </div>
+            }
+          />
+          <Route
+            exact
+            path="/uptime/:service"
+            element={
+              <div>
+                <div className="container-lg">
+                  <div className="card-deck mb-3 text-center">
+                    <Uptime servicesResults={servicesResults}/>
                   </div>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -11,6 +12,7 @@ import {
   faCircleQuestion,
   faCalendarAlt,
   faInfoCircle,
+  faArrowUpRightFromSquare
 } from "@fortawesome/free-solid-svg-icons";
 
 import { SERVICES, STATUS, SERVICE_CATEGORIES, NGI_MAPPING } from "../config";
@@ -25,10 +27,13 @@ library.add(
   faCircleMinus,
   faCircleQuestion,
   faCalendarAlt,
-  faInfoCircle
+  faInfoCircle,
+  faArrowUpRightFromSquare
 );
 
 const StatusTable = (props) => {
+  const navigate = useNavigate();
+
   const servicesTransform = (props) => {
     let services = [];
     if (props.groupStatus["groups"]) {
@@ -39,6 +44,7 @@ const StatusTable = (props) => {
 
           Object.assign(service, STATUS[status]);
           service["name"] = SERVICES[item.name].fullname;
+          service["original_name"] = item.name;
           service["status"] = status;
           if (props.servicesResults.results !== undefined) {
             props.servicesResults.results.forEach((result, index) => {
@@ -80,30 +86,50 @@ const StatusTable = (props) => {
                   <span className={styles.service_name}>{service.name}</span>
                   <div>
                     {service.results ? (
-                      <OverlayTrigger
-                        key="uptime-tooltip"
-                        placement="top"
-                        overlay={
-                          <Tooltip id={`uptime-tooltip-top`}>
-                            <strong>Service Uptime</strong> is a performance
-                            metric used to determine the amount of time a
-                            service is operational
-                          </Tooltip>
-                        }
-                      >
-                        <div>
-                          <FontAwesomeIcon
-                            icon="info-circle"
-                            color="gray"
-                            size="xs"
-                          />
-                          <span className={styles.tiny}>&nbsp;Uptime: </span>
+                      <div className={`${styles["uptime-container"]}`}>
+                        <OverlayTrigger
+                          key="uptime-tooltip"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`uptime-tooltip-top`}>
+                              <strong>Service Uptime</strong> is a performance
+                              metric used to determine the amount of time a
+                              service is operational
+                            </Tooltip>
+                          }
+                        >
+                          <div className={`${styles["uptime-inner-container"]}`}>
+                            <span>
+                              <FontAwesomeIcon
+                                icon="info-circle"
+                                color="gray"
+                                size="xs"
+                              />
+                            </span>
+                            <span className={styles.tiny}>Daily uptime:</span>
 
-                          <span className={styles.tiny}>
-                            {service.results.uptime} %
+                            <span className={styles.tiny}>
+                              {service.results.uptime}%
+                            </span>
+                          </div>
+                        </OverlayTrigger>
+                        <div className={`${styles["tiny"]} ${styles["cursor"]}`} onClick={() =>
+                          navigate(
+                            "/uptime/" + service.original_name
+                          )
+                        }>
+                          <span>
+                            <FontAwesomeIcon
+                              icon="arrow-up-right-from-square"
+                              color="gray"
+                              size="sm"
+                            />
+                          </span>
+                          <span>
+                            More history
                           </span>
                         </div>
-                      </OverlayTrigger>
+                      </div>
                     ) : null}
                   </div>
                 </div>

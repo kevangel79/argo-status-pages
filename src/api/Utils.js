@@ -10,4 +10,10 @@ const getCurrentDate = () => {
   return new Date().toISOString().substring(0,10);
 }
 
-export {doGet, getCurrentDate};
+const getDayBeforeCurrentDate = (daysnum) => {
+  var d = new Date();
+  d.setDate(d.getDate()-daysnum);
+  return d.toISOString().substring(0,10);
+}
+
+export {doGet, getCurrentDate, getDayBeforeCurrentDate};

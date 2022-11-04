@@ -28,7 +28,7 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav>
             <Nav.Link href="/">Dashboard</Nav.Link>
-            <Nav.Link href="downtimes">Downtimes</Nav.Link>
+            <Nav.Link href="/downtimes">Downtimes</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
