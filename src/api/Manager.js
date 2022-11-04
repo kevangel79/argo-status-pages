@@ -68,7 +68,8 @@ const getResultServiceGroups = () => {
     API.endpoint +
     "/api/v2/results/" +
     API.reportName +
-    "/NGI" +
+    "/" +
+    API.supergroupType +
     "?start_time=" +
     getCurrentDate() +
     "T00:00:00Z" +
