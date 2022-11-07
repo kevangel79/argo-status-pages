@@ -11,13 +11,13 @@ import {
 
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "../styles/App.module.css";
-import { SERVICES, NGI_MAPPING, API } from "../config";
+import { API } from "../config";
 
 library.add(faCircleCheck, faCalendar, faRecycle);
 
 function getWindowSize() {
-  const {innerWidth, innerHeight} = window;
-  return {innerWidth, innerHeight};
+  const { innerWidth, innerHeight } = window;
+  return { innerWidth, innerHeight };
 }
 
 const Uptime = (props) => {
@@ -57,16 +57,13 @@ const Uptime = (props) => {
 
   const filterServiceResults = () => {
     if (servicesResults !== undefined) {
-      let category = NGI_MAPPING[SERVICES[service].category].replaceAll(" ", "_");
       if (servicesResults.results) {
         for (var i = 0; i < servicesResults["results"].length; i++) {
           let c = servicesResults["results"][i];
-          if (c.name === category) {
-            for (var j = 0; j < c["endpoints"].length; j++) {
-              let s = c["endpoints"][j];
-              if (s.name === service) {
-                return s.results
-              }
+          for (var j = 0; j < c["endpoints"].length; j++) {
+            let s = c["endpoints"][j];
+            if (s.name === service) {
+              return s.results
             }
           }
         }
@@ -112,44 +109,54 @@ const Uptime = (props) => {
 
   const prepareDays = (vec, num) => {
     let marginx = 0;
-    for (var i = results.length - num; i < results.length; i++) {
-      if (parseInt(results[i].unknown) === 1) {
-        fill = "##8e44ad";
+    if (results.length > 0) {
+      let startidx = 0;
+      if (results.length - num < 0) {
+        startidx = 0;
       }
-      else if (
-        parseFloat(results[i].uptime) ||
-        parseFloat(results[i].availability) ||
-        parseFloat(results[i].reliability) 
-      ) {
-        if (
-          (parseFloat(thresholds.uptime) + 0.01 < 1 && parseFloat(results[i].uptime) <= parseFloat(thresholds.uptime) + 0.01) ||
-          (parseFloat(thresholds.availability) + 2 < 100 && parseFloat(results[i].availability) <= parseFloat(thresholds.availability) + 2) ||
-          (parseFloat(thresholds.reliability) + 2 < 100 && parseFloat(results[i].reliability) <= parseFloat(thresholds.reliability) + 2)
-        )
-        fill = "#e67e22";
+      else {
+        startidx = results.length - num;
+      }
+      for (var i = startidx; i < results.length; i++) {
+
+        if (parseInt(results[i].unknown) === 1) {
+          fill = "##8e44ad";
+        }
+        else if (
+          parseFloat(results[i].uptime) ||
+          parseFloat(results[i].availability) ||
+          parseFloat(results[i].reliability)
+        ) {
+          if (
+            (parseFloat(thresholds.uptime) + 0.01 < 1 && parseFloat(results[i].uptime) <= parseFloat(thresholds.uptime) + 0.01) ||
+            (parseFloat(thresholds.availability) + 2 < 100 && parseFloat(results[i].availability) <= parseFloat(thresholds.availability) + 2) ||
+            (parseFloat(thresholds.reliability) + 2 < 100 && parseFloat(results[i].reliability) <= parseFloat(thresholds.reliability) + 2)
+          )
+            fill = "#e67e22";
+          else {
+            fill = "#16a085";
+          }
+        }
+        else if (
+          parseFloat(results[i].uptime) <= thresholds.uptime ||
+          parseFloat(results[i].availability) <= thresholds.availability ||
+          parseFloat(results[i].reliability) <= thresholds.reliability
+        ) {
+          fill = "#e74c3c";
+        }
         else {
           fill = "#16a085";
         }
+        vec.push(<rect key={`day-${i}`} onMouseOver={mouseOver.bind(this, results[i])} onMouseOut={mouseOut}
+          height="34" width="5" x={`${marginx}`} y="0" fill={fill} className={`uptime-day component-0mw0pdgvs1l3 day day-${i}`} data-html="true"></rect>);
+        vec.push(<rect key={`mday-${i}`} onMouseOver={mouseOver.bind(this, results[i])}
+          height="34" width="3" x={`${marginx + 5}`} y="0" fill="#fff" data-html="true"></rect>);
+        marginx += 8;
       }
-      else if (
-        parseFloat(results[i].uptime) <= thresholds.uptime ||
-        parseFloat(results[i].availability) <= thresholds.availability ||
-        parseFloat(results[i].reliability) <= thresholds.reliability
-      ) {
-        fill = "#e74c3c";
-      }
-      else {
-        fill = "#16a085";
-      }
-      vec.push(<rect key={`day-${i}`} onMouseOver={mouseOver.bind(this, results[i])} onMouseOut={mouseOut}
-       height="34" width="5" x={`${marginx}`} y="0" fill={fill} className={`uptime-day component-0mw0pdgvs1l3 day day-${i}`} data-html="true"></rect>);
-       vec.push(<rect key={`mday-${i}`} onMouseOver={mouseOver.bind(this, results[i])}
-       height="34" width="3" x={`${marginx+5}`} y="0" fill="#fff" data-html="true"></rect>);
-      marginx += 8;
     }
   }
 
-  if (results !== undefined) {
+  if (results !== undefined && results.length > 0) {
     prepareDays(days, 90);
     prepareDays(days30, 50);
   }
@@ -166,7 +173,7 @@ const Uptime = (props) => {
             <i className="fa fa-times"></i>
           </div>
           <div className={`${styles["date"]}`}>{result.timestamp}</div>
-          <div style={{"textAlign": "initial", marginTop: "0.5rem"}}>
+          <div style={{ "textAlign": "initial", marginTop: "0.5rem" }}>
             <ul>
               <li >
                 <span>Uptime: {parseFloat(result.uptime * 100).toFixed(2)} %</span>
@@ -192,31 +199,31 @@ const Uptime = (props) => {
           <h5>{props.hostname}</h5>
         </div>
         <div className={`${styles["uptime-90-days-wrapper"]}`}>
-        { windowSize.innerWidth > 800 ?
-          <svg id="uptime-component-0mw0pdgvs1l3" preserveAspectRatio="none" height="34" viewBox={"0 0 720 34"} onMouseMove={handleMouseMove}>
-            {days}
-          </svg>
-          : 
-          <svg id="uptime-component-0mw0pdgvs1l3" preserveAspectRatio="none" height="34" viewBox={"0 0 400 34"} onMouseMove={handleMouseMove}>
-            {days30}
-          </svg>
-        }
+          {windowSize.innerWidth > 800 ?
+            <svg id="uptime-component-0mw0pdgvs1l3" preserveAspectRatio="none" height="34" viewBox={"0 0 720 34"} onMouseMove={handleMouseMove}>
+              {days}
+            </svg>
+            :
+            <svg id="uptime-component-0mw0pdgvs1l3" preserveAspectRatio="none" height="34" viewBox={"0 0 400 34"} onMouseMove={handleMouseMove}>
+              {days30}
+            </svg>
+          }
           <div className={`${styles["legend"]}`}>
             <div className={`${styles["legend-item"]} ${styles["light"]} ${styles["legend-item-date-range"]}`}>
-            { windowSize.innerWidth > 800 ?
-              <div><span className={`${styles["availability-time-line-legend-day-count"]}`}>{results && results.length}</span> days ago</div>
-              :
-              <div><span className={`${styles["availability-time-line-legend-day-count"]}`}>50</span> days ago</div>
-            }
+              {windowSize.innerWidth > 800 ?
+                <div><span className={`${styles["availability-time-line-legend-day-count"]}`}>{results && results.length}</span> days ago</div>
+                :
+                <div><span className={`${styles["availability-time-line-legend-day-count"]}`}>50</span> days ago</div>
+              }
             </div>
             <div className={`${styles["spacer"]}`}></div>
             <div className={`${styles["legend-item"]} ${styles["legend-item-uptime-value"]}`}>
               <span id="uptime-percent-0mw0pdgvs1l3">
-              { windowSize.innerWidth > 800?
-                <var data-var="uptime-percent">{calculateAverageUptime(results)}</var>
-                :
-                <var data-var="uptime-percent">{calculateAverageUptime(results.slice(-50))}</var>
-              }
+                {windowSize.innerWidth > 800 ?
+                  <var data-var="uptime-percent">{calculateAverageUptime(results)}</var>
+                  :
+                  <var data-var="uptime-percent">{calculateAverageUptime(results.slice(-50))}</var>
+                }
               </span>
               % uptime
             </div>
