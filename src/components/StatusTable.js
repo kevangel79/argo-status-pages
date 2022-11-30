@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +15,7 @@ import {
   faArrowUpRightFromSquare
 } from "@fortawesome/free-solid-svg-icons";
 
-import { SERVICES, STATUS, SERVICE_CATEGORIES, NGI_MAPPING } from "../config";
+import { CATEGORIES, STATUS } from "../config";
 
 import styles from "../styles/App.module.css";
 
@@ -34,32 +34,59 @@ library.add(
 const StatusTable = (props) => {
   const navigate = useNavigate();
 
+  const [flatServices, setFlatServices] = useState([]);
+  useEffect(() => {
+    const flattenConfigurationServices = () => {
+      let fs = [];
+      CATEGORIES.forEach((category) => {
+        fs = fs.concat(category.items);
+      });
+      setFlatServices(fs);
+    };
+
+    flattenConfigurationServices();
+  }, []);
+
+  const getCategoriesFromServiceName = (service) => {
+    let r = {};
+    for (let category of CATEGORIES) {
+      r = category["items"].filter(x => x.remote_name === service);
+      if (r.length > 0) {
+        return [category.remote_name, category.displayed_name];
+      }
+    };
+    return [];
+  }
+
   const servicesTransform = (props) => {
     let services = [];
     if (props.groupStatus["groups"]) {
       props.groupStatus["groups"].forEach((item) => {
-        if (item.name in SERVICES) {
+        let s = flatServices.filter(x => x.remote_name === item.name);
+        let _s;
+        if (s.length > 0) {
+          _s = s[0]
           let service = {};
           let status = item["statuses"].slice(-1)[0]["value"];
 
           Object.assign(service, STATUS[status]);
-          service["name"] = SERVICES[item.name].fullname;
+          service["name"] = _s.displayed_name;
           service["original_name"] = item.name;
           service["status"] = status;
           if (props.servicesResults.results !== undefined) {
             props.servicesResults.results.forEach((result, index) => {
-              result.endpoints.forEach((s, index) => {
-                if (s.name === item.name) {
+              result.endpoints.forEach((r, index) => {
+                if (r.name === item.name) {
                   service["results"] = {
                     uptime: parseFloat(
-                      parseFloat(s.results[0].uptime * 100).toFixed(2)
+                      parseFloat(r.results[0].uptime * 100).toFixed(2)
                     ),
                   };
                 }
               });
             });
           }
-          service["category"] = SERVICES[item.name].category;
+          service["category"] = getCategoriesFromServiceName(service["original_name"])[0];
           services.push(service);
         }
       });
@@ -70,14 +97,14 @@ const StatusTable = (props) => {
 
   const servicesGroup = (props, services) => {
     let divs = {};
-    Object.keys(SERVICE_CATEGORIES).forEach((category, index) => {
+    CATEGORIES.forEach((category, index) => {
       if (services) {
         services.forEach((service, index) => {
-          if (service.category === category) {
-            if (!(category in divs)) {
-              divs[category] = [];
+          if (service.category === category.remote_name) {
+            if (!(category.remote_name in divs)) {
+              divs[category.remote_name] = [];
             }
-            divs[category].push(
+            divs[category.remote_name].push(
               <div
                 className={`${styles["service"]} ${styles["header"]} ${styles["align"]} ${styles["align_center"]}`}
                 key={`service-${index}`}
@@ -198,7 +225,7 @@ const StatusTable = (props) => {
             let result = {};
             if (props.groupResults.results) {
               for (const [, i] of props.groupResults.results.entries()) {
-                if (i["name"].replaceAll("_", " ") === NGI_MAPPING[service]) {
+                if (CATEGORIES.filter(x => x.displayed_name === i["name"].replaceAll("_", " ")).length > 0) {
                   result = i["results"][0];
                   break;
                 }

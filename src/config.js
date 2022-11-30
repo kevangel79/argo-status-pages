@@ -9,19 +9,15 @@ const STATUS = {
   UNKNOWN: { icon: "circle-question", text: "Unknown", color: "#95a5a6" },
 };
 
-const SERVICES = config.services;
-const SERVICE_CATEGORIES = config.service_categories;
-const NGI_MAPPING = config.ngi_categories;
+const CATEGORIES = config.categories;
 const THEME = config.theme;
 const API = config.api;
 const TITLE = config.title;
 const COPYRIGHT = config.copyright;
 
 export {
-  SERVICES,
+  CATEGORIES,
   STATUS,
-  SERVICE_CATEGORIES,
-  NGI_MAPPING,
   THEME,
   API,
   TITLE,
