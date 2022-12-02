@@ -8,26 +8,37 @@ The argo-status-pages application provides a simple way to configure connection 
 
 ```json
 {
-  "services": {
-    "Service_A": {
-      "fullname": "Service A",
-      "category": "Category A"
+  "categories": [
+    {
+      "remote_name": "CATEGORY A",
+      "displayed_name": "CATEGORY A",
+      "items": [
+        {
+          "remote_name": "SERVICE_A",
+          "displayed_name": "SERVICE A"
+        },
+        {
+          "remote_name": "SERVICE_B",
+          "displayed_name": "SERVICE B"
+        }
+      ]
     },
-    "Service_B": {
-      "fullname": "Service B",
-      "category": "Category A"
+    {
+      "remote_name": "CATEGORY B",
+      "displayed_name": "CATEGORY B",
+      "items": [
+        {
+          "remote_name": "SERVICE_C",
+          "displayed_name": "SERVICE C"
+        }
+      ]
     }
-  },
-  "service_categories": {
-    "Category A": ["Service_A", "Service_B"]
-  },
-  "ngi_categories": {
-    "Service_A": "Service_A",
-    "Service_B": "Service_B"
-  },
+  ],
   "api": {
     "endpoint": "api.devel.example.com",
-    "reportName": "CORE"
+    "reportName": "CORE",
+    "groupType": "SITES",
+    "supergroupType": "NGI"
   },
   "title": "Test Status Page",
   "copyright": "Copyright 2022 - All rights reserved",
