@@ -54,7 +54,7 @@ The argo-status-pages application provides a simple way to configure connection 
 
 The `public` directory of the project may host specific assets such as the `favicon.ico`, the `logo.svg` or the `footer_logo.svg`.
 In addition to the image assets, a `.env` file may exist on the `public` directory that will define the `REACT_APP_TITLE`
-variable for the argo-status-pages title.
+variable for the argo-status-pages title, and the `REACT_APP_DESCRIPTION` variable for the argo-status-pages description.
 
 ## Installation
 
