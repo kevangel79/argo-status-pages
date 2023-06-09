@@ -1,10 +1,9 @@
 import * as React from "react";
 import setThemeValue from "../helpers/helpers";
 
-import { Navbar, Nav, Container, Image, Row, Col } from "react-bootstrap";
-import { TITLE } from "../config";
-import {THEME} from "../config";
-import LOGO from "../assets/logo.svg"
+import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
+import { TITLE, THEME } from "../config";
+import Logo from "../assets/Logo";
 import styles from "../styles/App.module.css";
 
 const Header = () => {
@@ -17,7 +16,7 @@ const Header = () => {
         <Navbar.Brand href="/">
           <Row className="align-items-baseline g-1">
             <Col>
-              <Image src={LOGO} className={`${styles["navbar-logo"]} border-end`}/>
+              <Logo className={`${styles["navbar-logo"]} border-end`} />
             </Col>
             <Col>
               <span className={`${styles["navbar-title"]} text-white`}>{TITLE}</span>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { IconProp, library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCircleCheck,
   faWrench,
@@ -14,7 +14,6 @@ import {
   faInfoCircle,
   faArrowUpRightFromSquare
 } from "@fortawesome/free-solid-svg-icons";
-
 import { CATEGORIES, STATUS } from "../config";
 
 import styles from "../styles/App.module.css";
@@ -31,13 +30,25 @@ library.add(
   faArrowUpRightFromSquare
 );
 
-const StatusTable = (props) => {
+type CustomServiceT = StatusStyle & {
+  name: string;
+  original_name: string;
+  status: string;
+  results: {
+    uptime: number
+  },
+  category: string
+}
+
+type PropsT = { groupStatus: StatusServiceGroupT, groupResults: ResultServiceGroupsT, servicesResults: ResultServicesT }
+
+const StatusTable = (props: PropsT) => {
   const navigate = useNavigate();
 
-  const [flatServices, setFlatServices] = useState([]);
+  const [flatServices, setFlatServices] = useState<InternalCategoryT[]>([]);
   useEffect(() => {
     const flattenConfigurationServices = () => {
-      let fs = [];
+      let fs: InternalCategoryT[] = [];
       CATEGORIES.forEach((category) => {
         fs = fs.concat(category.items);
       });
@@ -47,8 +58,8 @@ const StatusTable = (props) => {
     flattenConfigurationServices();
   }, []);
 
-  const getCategoriesFromServiceName = (service) => {
-    let r = {};
+  const getCategoriesFromServiceName = (service: string) => {
+    let r: any = {};
     for (let category of CATEGORIES) {
       r = category["items"].filter(x => x.remote_name === service);
       if (r.length > 0) {
@@ -58,15 +69,15 @@ const StatusTable = (props) => {
     return [];
   }
 
-  const servicesTransform = (props) => {
-    let services = [];
+  const servicesTransform = (props: PropsT): CustomServiceT[] => {
+    let services: CustomServiceT[] = [];
     if (props.groupStatus["groups"]) {
-      props.groupStatus["groups"].forEach((item) => {
-        let s = flatServices.filter(x => x.remote_name === item.name);
+      props.groupStatus["groups"].forEach((item: any) => {
+        let s = flatServices.filter((x: any) => x.remote_name === item.name);
         let _s;
         if (s.length > 0) {
           _s = s[0]
-          let service = {};
+          let service: any = {};
           let status = item["statuses"].slice(-1)[0]["value"];
 
           Object.assign(service, STATUS[status]);
@@ -74,12 +85,12 @@ const StatusTable = (props) => {
           service["original_name"] = item.name;
           service["status"] = status;
           if (props.servicesResults.results !== undefined) {
-            props.servicesResults.results.forEach((result, index) => {
-              result.endpoints.forEach((r, index) => {
+            props.servicesResults.results.forEach((result: any, index: number) => {
+              result.endpoints.forEach((r: any, index: number) => {
                 if (r.name === item.name) {
                   service["results"] = {
                     uptime: parseFloat(
-                      parseFloat(r.results[0].uptime * 100).toFixed(2)
+                      parseFloat((r.results[0].uptime * 100).toString()).toFixed(2)
                     ),
                   };
                 }
@@ -95,11 +106,11 @@ const StatusTable = (props) => {
     return services;
   };
 
-  const servicesGroup = (props, services) => {
-    let divs = {};
+  const servicesGroup = (props: PropsT, services: CustomServiceT[]) => {
+    let divs: {[key: string]: Array<React.JSX.Element>} = {};
     CATEGORIES.forEach((category, index) => {
       if (services) {
-        services.forEach((service, index) => {
+        services.forEach((service: CustomServiceT, index: number) => {
           if (service.category === category.remote_name) {
             if (!(category.remote_name in divs)) {
               divs[category.remote_name] = [];
@@ -163,11 +174,13 @@ const StatusTable = (props) => {
                 <div
                   className={`${styles["flex_row"]} ${styles["align_center"]}`}
                 >
-                  <FontAwesomeIcon
-                    icon={service.icon}
-                    color={service.color}
-                    size="lg"
-                  />
+                  {service.icon !== null && service.icon !== undefined &&
+                    <FontAwesomeIcon
+                      icon={(service.icon as IconProp)}
+                      color={service.color}
+                      size="lg"
+                    />
+                  }
                 </div>
               </div>
             );
@@ -175,6 +188,7 @@ const StatusTable = (props) => {
         });
       }
     });
+    console.log(divs);
     return divs;
   };
 
@@ -199,7 +213,7 @@ const StatusTable = (props) => {
                 key={`badge-${index}`}
               >
                 <FontAwesomeIcon
-                  icon={STATUS[item].icon}
+                  icon={(STATUS[item].icon as IconProp)}
                   color={STATUS[item].color}
                   size="xs"
                 />
@@ -222,9 +236,9 @@ const StatusTable = (props) => {
       <div className={styles.section}>
         <div>
           {Object.keys(grouped_services).map((service, index) => {
-            let result = {};
+            let result: any = {};
             if (props.groupResults.results) {
-              for (const [, i] of props.groupResults.results.entries()) {
+              for (const i of props.groupResults.results) {
                 if (CATEGORIES.filter(x => x.displayed_name === i["name"].replaceAll("_", " ")).length > 0) {
                   result = i["results"][0];
                   break;

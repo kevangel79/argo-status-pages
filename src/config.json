@@ -1,61 +1,157 @@
 {
   "categories": [
     {
-      "remote_name": "B2ACCESS",
-      "displayed_name": "B2ACCESS",
+      "remote_name": "EOSC Monitoring",
+      "displayed_name": "EOSC Monitoring",
       "items": [
         {
-          "remote_name": "B2ACCESS CDI",
-          "displayed_name": "B2ACCESS CDI"
+          "remote_name": "EOSC_Messaging_Service",
+          "displayed_name": "EOSC Messaging System"
+        },
+        {
+          "remote_name": "EOSC_Monitoring_Core_Services",
+          "displayed_name": "EOSC Monitoring for Core Services"
+        },
+        {
+          "remote_name": "EOSC_Monitoring_Exchange_Services",
+          "displayed_name": "EOSC Monitoring for Exchange Services"
         }
       ]
     },
     {
-      "remote_name": "B2DROP",
-      "displayed_name": "B2DROP",
+      "remote_name": "EOSC Service Order Management",
+      "displayed_name": "EOSC Order Management",
       "items": [
         {
-          "remote_name": "B2DROP CDI",
-          "displayed_name": "B2DROP CDI"
+          "remote_name": "EOSC_Service_Order_Management",
+          "displayed_name": "EOSC Service Order Management Back-Office"
         }
       ]
     },
     {
-      "remote_name": "B2FIND",
-      "displayed_name": "B2FIND",
+      "remote_name": "EOSC Core Topology",
+      "displayed_name": "EOSC Topology",
       "items": [
         {
-          "remote_name": "B2FIND CDI",
-          "displayed_name": "B2FIND CDI"
+          "remote_name": "EOSC_Core_Topology",
+          "displayed_name": "EOSC Core Topology"
         }
       ]
     },
     {
-      "remote_name": "B2HANDLE",
-      "displayed_name": "B2HANDLE",
+      "remote_name": "EOSC Accounting",
+      "displayed_name": "EOSC Accounting",
       "items": [
         {
-          "remote_name": "B2HANDLE CDI",
-          "displayed_name": "B2HANDLE CDI"
+          "remote_name": "EOSC_Accounting_Services",
+          "displayed_name": "EOSC Accounting for Services"
+        },
+        {
+          "remote_name": "EOSC_Accounting_for_Research_Products",
+          "displayed_name": "EOSC Accounting for Research Products"
         }
       ]
     },
     {
-      "remote_name": "B2SHARE",
-      "displayed_name": "B2SHARE",
+      "remote_name": "EOSC Resource Catalogue",
+      "displayed_name": "EOSC Resource Catalogue",
       "items": [
         {
-          "remote_name": "B2SHARE CDI",
-          "displayed_name": "B2SHARE CDI"
+          "remote_name": "EOSC_Service_Catalogue",
+          "displayed_name": "EOSC Service Catalogue"
+        },
+        {
+          "remote_name": "EOSC_Research_Product_Provider_Dashboard",
+          "displayed_name": "EOSC Research Product Provider Dashboard"
+        },
+        {
+          "remote_name": "EOSC_Research_Product_Provider_Catalogue",
+          "displayed_name": "EOSC Research Product Provider Catalogue"
+        },
+        {
+          "remote_name": "EOSC_Service_Providers_Dashboard",
+          "displayed_name": "EOSC Service Providers Dashboard"
+        },
+        {
+          "remote_name": "EOSC_Interoperability_Framework",
+          "displayed_name": "EOSC Interoperability Framework"
+        }
+      ]
+    },
+    {
+      "remote_name": "EOSC Helpdesk",
+      "displayed_name": "EOSC Helpdesk",
+      "items": [
+        {
+          "remote_name": "EOSC-Helpdesk",
+          "displayed_name": "EOSC Helpdesk for Core Services"
+        }
+      ]
+    },
+    {
+      "remote_name": "Collaboration Tools",
+      "displayed_name": "Collaboration Tools",
+      "items": [
+        {
+          "remote_name": "EOSC_Issue_Tracker",
+          "displayed_name": "EOSC Issue Tracker (Jira)"
+        },
+        {
+          "remote_name": "EOSC_Wiki",
+          "displayed_name": "EOSC Wiki (Confluence)"
+        }
+      ]
+    },
+    {
+      "remote_name": "EOSC Front-Office",
+      "displayed_name": "EOSC Front-Office",
+      "items": [
+        {
+          "remote_name": "EOSC_Portal",
+          "displayed_name": "EOSC Portal"
+        },
+        {
+          "remote_name": "EOSC_Research_Discovery_Portal",
+          "displayed_name": "EOSC Research Discovery Portal"
+        },
+        {
+          "remote_name": "EOSC_Portal_Catalogue_and_Marketplace",
+          "displayed_name": "EOSC Portal Catalogue and Marketplace"
+        },
+        {
+          "remote_name": "EOSC_Open_Science_Statistics",
+          "displayed_name": "EOSC Open Science Statistics"
+        }
+      ]
+    },
+    {
+      "remote_name": "EOSC AAI",
+      "displayed_name": "EOSC AAI",
+      "items": [
+        {
+          "remote_name": "RCauth",
+          "displayed_name": "RCauth"
+        },
+        {
+          "remote_name": "EOSC_Core_Infrastracture_proxy",
+          "displayed_name": "EOSC Core AAI Infrastracture Proxy"
+        },
+        {
+          "remote_name": "EOSC_Core_AAI_Fabric_Monitoring",
+          "displayed_name": "EOSC Core AAI Fabric Monitoring"
+        },
+        {
+          "remote_name": "IGTF_Bridge",
+          "displayed_name": "IGTF Bridge"
         }
       ]
     }
   ],
   "api": {
-    "endpoint": "eudat.status.devel.argo.grnet.gr/proxy",
-    "reportName": "Critical",
-    "groupType": "SERVICEGROUPS",
-    "supergroupType": "PROJECT"
+    "endpoint": "api.argo.grnet.gr",
+    "reportName": "CORE",
+    "groupType": "SITES",
+    "supergroupType": "NGI"
   },
   "title": "EUDAT - Status",
   "copyright": "Copyright 2022 - All rights reserved - EUDAT",

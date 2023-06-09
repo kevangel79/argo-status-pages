@@ -1,4 +1,4 @@
-const setThemeValue = function(variable, value) {
+const setThemeValue = function(variable: string, value: string) {
   document.documentElement.style.setProperty("--" + variable, value);
 }
 

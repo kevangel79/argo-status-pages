@@ -20,21 +20,21 @@ function getWindowSize() {
   return { innerWidth, innerHeight };
 }
 
-const Uptime = (props) => {
+const Uptime = (props: any) => {
   const { service } = useParams();
 
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
-  const [servicesResults, setServicesResults] = useState({});
+  const [servicesResults, setServicesResults] = useState<ResultServicesT>();
   useEffect(() => {
-    getResultServicesRanged(90).then((response) => setServicesResults(response));
+    getResultServicesRanged(90).then((response: ResultServicesT) => setServicesResults(response));
   }, []);
 
-  const [thresholds, setThresholds] = useState({});
+  const [thresholds, setThresholds] = useState<any>({});
   useEffect(() => {
-    getReports().then((response) => {
+    getReports().then((response: ReportT) => {
       if (response.data) {
-        response.data.forEach((r) => {
+        response.data.forEach((r: any) => {
           if (r.info.name === API.reportName) {
             setThresholds(r.thresholds)
           }
@@ -71,10 +71,10 @@ const Uptime = (props) => {
     }
   }
 
-  const calculateAverageUptime = (results) => {
+  const calculateAverageUptime = (results: any) => {
     let sum = 0;
     if (results !== undefined && results.length > 0) {
-      results.forEach((r) => {
+      results.forEach((r: any) => {
         sum += parseFloat(r.uptime);
       });
       return ((sum / results.length) * 100).toFixed(2);
@@ -85,7 +85,7 @@ const Uptime = (props) => {
   let results = filterServiceResults();
 
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const handleMouseMove = event => {
+  const handleMouseMove = (event: any) => {
     setCoords({
       x: event.nativeEvent.layerX,
       y: event.clientY - event.target.offsetTop,
@@ -93,13 +93,13 @@ const Uptime = (props) => {
   };
 
 
-  let days = [];
-  let days30 = [];
+  let days: React.JSX.Element[] = [];
+  let days30: React.JSX.Element[] = [];
   let fill = "#16a085";
   const [hovering, setHovering] = useState(false);
-  const [result, setResult] = useState({});
+  const [result, setResult] = useState<any>({});
 
-  const mouseOver = (r) => {
+  const mouseOver = (r: any) => {
     setHovering(true);
     setResult(r);
   }
@@ -107,9 +107,9 @@ const Uptime = (props) => {
     setHovering(false);
   }
 
-  const prepareDays = (vec, num) => {
+  const prepareDays = (vec: React.JSX.Element[], num: number) => {
     let marginx = 0;
-    if (results.length > 0) {
+    if (results && results.length > 0) {
       let startidx = 0;
       if (results.length - num < 0) {
         startidx = 0;
@@ -119,18 +119,18 @@ const Uptime = (props) => {
       }
       for (var i = startidx; i < results.length; i++) {
 
-        if (parseInt(results[i].unknown) === 1) {
+        if (results[i].unknown === 1) {
           fill = "##8e44ad";
         }
         else if (
-          parseFloat(results[i].uptime) ||
-          parseFloat(results[i].availability) ||
-          parseFloat(results[i].reliability)
+          results[i].uptime ||
+          results[i].availability ||
+          results[i].reliability
         ) {
           if (
-            (parseFloat(thresholds.uptime) + 0.01 < 1 && parseFloat(results[i].uptime) <= parseFloat(thresholds.uptime) + 0.01) ||
-            (parseFloat(thresholds.availability) + 2 < 100 && parseFloat(results[i].availability) <= parseFloat(thresholds.availability) + 2) ||
-            (parseFloat(thresholds.reliability) + 2 < 100 && parseFloat(results[i].reliability) <= parseFloat(thresholds.reliability) + 2)
+            (parseFloat(thresholds.uptime) + 0.01 < 1 && results[i].uptime <= thresholds.uptime + 0.01) ||
+            (parseFloat(thresholds.availability) + 2 < 100 && results[i].availability <= thresholds.availability + 2) ||
+            (parseFloat(thresholds.reliability) + 2 < 100 && results[i].reliability <= thresholds.reliability + 2)
           )
             fill = "#e67e22";
           else {
@@ -138,9 +138,9 @@ const Uptime = (props) => {
           }
         }
         else if (
-          parseFloat(results[i].uptime) <= thresholds.uptime ||
-          parseFloat(results[i].availability) <= thresholds.availability ||
-          parseFloat(results[i].reliability) <= thresholds.reliability
+          results[i].uptime <= thresholds.uptime ||
+          results[i].availability <= thresholds.availability ||
+          results[i].reliability <= thresholds.reliability
         ) {
           fill = "#e74c3c";
         }
@@ -176,7 +176,7 @@ const Uptime = (props) => {
           <div style={{ "textAlign": "initial", marginTop: "0.5rem" }}>
             <ul>
               <li >
-                <span>Uptime: {parseFloat(result.uptime * 100).toFixed(2)} %</span>
+                <span>Uptime: {parseFloat((result.uptime * 100).toString()).toFixed(2)} %</span>
               </li>
               <li><span>Availability: {parseFloat(result.availability).toFixed(2)} %</span></li>
               <li><span>Reliability: {parseFloat(result.reliability).toFixed(2)} %</span></li>
@@ -192,7 +192,9 @@ const Uptime = (props) => {
   return (
     <div className="card mb-4 mr-2 shadow-sm">
       <div className="card-header">
-        <h6 className="my-0 font-weight-normal">{service.replaceAll("_", " ")}</h6>
+        {service !== undefined &&
+          <h6 className="my-0 font-weight-normal">{service.replaceAll("_", " ")}</h6>
+        }
       </div>
       <div className="card-body">
         <div className="mb-8">
@@ -222,7 +224,7 @@ const Uptime = (props) => {
                 {windowSize.innerWidth > 800 ?
                   <var data-var="uptime-percent">{calculateAverageUptime(results)}</var>
                   :
-                  <var data-var="uptime-percent">{calculateAverageUptime(results.slice(-50))}</var>
+                  <var data-var="uptime-percent">{calculateAverageUptime(results && results.slice(-50))}</var>
                 }
               </span>
               % uptime

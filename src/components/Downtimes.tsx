@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { getDowntimes } from "../api/Manager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { IconProp, library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCircleCheck,
   faCalendar,
@@ -16,7 +16,7 @@ import styles from "../styles/App.module.css";
 
 library.add(faCircleCheck, faCalendar, faRecycle);
 
-const Downtime = (props) => {
+const Downtime = (props: DowntimeT) => {
   let status;
   let status_icon = "circle-check";
   let status_color = "#000";
@@ -50,7 +50,7 @@ const Downtime = (props) => {
         <div>
           <div className="mr-1">
             <FontAwesomeIcon
-              icon={status_icon}
+              icon={(status_icon as IconProp)}
               color={status_color}
               size="lg"
             />
@@ -72,25 +72,31 @@ const Downtime = (props) => {
   );
 };
 
-const updateDowntimes = (date, setDowntimes, setStartDate) => {
-  setStartDate(date);
-  const offset = date.getTimezoneOffset()
-  date = new Date(date.getTime() - (offset * 60 * 1000))
-  getDowntimes(date.toISOString().split('T')[0]).then((response) => setDowntimes(response.data));
+const updateDowntimes = (date: Date | null, setDowntimes: Function, setStartDate: Function) => {
+  if (date !== null) {
+    setStartDate(date);
+    const offset = date.getTimezoneOffset()
+    date = new Date(date.getTime() - (offset * 60 * 1000))
+    getDowntimes(date.toISOString().split('T')[0]).then((response: DownTimeApiResponseT) => { 
+      setDowntimes(response.data);
+    });
+  }
 }
 
-const Downtimes = (props) => {
+const Downtimes = () => {
 
   const [startDate, setStartDate] = useState(new Date());
   const [downtimes, setDowntimes] = useState({});
 
   useEffect(() => {
-    getDowntimes(startDate.toISOString().split('T')[0]).then((response) => setDowntimes(response.data));
+    getDowntimes(startDate.toISOString().split('T')[0]).then((response: DownTimeApiResponseT) => { 
+      setDowntimes(response.data);
+    });
   }, [startDate]);
 
   let downtimesArray = <div>No downtimes are scheduled</div>;
   if (Array.isArray(downtimes) && downtimes[0].endpoints.length > 0) {
-    downtimesArray = downtimes[0].endpoints.map((obj, i) => {
+    downtimesArray = downtimes[0].endpoints.map((obj: any, i: number) => {
       return (
         <Downtime
           key={`downtime-${i}`}
@@ -103,7 +109,7 @@ const Downtimes = (props) => {
     });
   }
 
-  const renderDayContents = (day, date) => {
+  const renderDayContents = (day: number, date: Date) => {
     const tooltipText = `${date}`;
     return <span title={tooltipText}>{date.getDate()}</span>;
   };
@@ -115,7 +121,6 @@ const Downtimes = (props) => {
           selected={startDate}
           onChange={(date) => updateDowntimes(date, setDowntimes, setStartDate)}
           renderDayContents={renderDayContents}
-          showMonthPicker
           inline
           monthsShown={1}
           dayClassName={(date) =>

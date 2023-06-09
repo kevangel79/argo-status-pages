@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Route,
@@ -15,20 +15,20 @@ import Uptime from "./components/Uptime";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [groupStatus, setGroupStatus] = useState({});
-  const [groupResults, setGroupResults] = useState({});
-  const [servicesResults, setServicesResults] = useState({});
+  const [groupStatus, setGroupStatus] = useState<StatusServiceGroupT>();
+  const [groupResults, setGroupResults] = useState<ResultServiceGroupsT>();
+  const [servicesResults, setServicesResults] = useState<ResultServicesT>();
 
   useEffect(() => {
-    getStatusServiceGroup().then((response) => setGroupStatus(response));
+    getStatusServiceGroup().then((response: StatusServiceGroupT) => setGroupStatus(response));
   }, []);
 
   useEffect(() => {
-    getResultServiceGroups().then((response) => setGroupResults(response));
+    getResultServiceGroups().then((response: ResultServiceGroupsT) => setGroupResults(response));
   }, []);
 
   useEffect(() => {
-    getResultServices().then((response) => setServicesResults(response));
+    getResultServices().then((response: ResultServicesT) => setServicesResults(response));
   }, []);
 
   return (
@@ -37,35 +37,36 @@ function App() {
         <Header />
         <Routes>
           <Route
-            exact
             path="/"
             element={
               <div>
-                <StatusTable groupStatus={groupStatus} groupResults={groupResults} servicesResults={servicesResults} />
+                {groupStatus !== undefined && groupResults !== undefined && servicesResults !== undefined &&
+                  <StatusTable groupStatus={groupStatus} groupResults={groupResults} servicesResults={servicesResults} />
+                }
               </div>
             }
           />
           <Route
-            exact
             path="/downtimes"
             element={
               <div>
                 <div className="container">
                   <div className="card-deck mb-3 text-center">
-                    <Downtimes/>
+                    <Downtimes />
                   </div>
                 </div>
               </div>
             }
           />
           <Route
-            exact
             path="/uptime/:service"
             element={
               <div>
                 <div className="container-lg">
                   <div className="card-deck mb-3 text-center">
-                    <Uptime servicesResults={servicesResults}/>
+                    {servicesResults !== undefined &&
+                      <Uptime servicesResults={servicesResults} />
+                    }
                   </div>
                 </div>
               </div>
