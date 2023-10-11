@@ -1,4 +1,3 @@
-import * as React from "react";
 import setThemeValue from "../helpers/helpers";
 
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
@@ -7,11 +6,22 @@ import Logo from "../assets/Logo";
 import styles from "../styles/App.module.css";
 
 const Header = () => {
-  setThemeValue("header-gradient-color-start", THEME["header-gradient-color-start"]);
-  setThemeValue("header-gradient-color-end", THEME["header-gradient-color-end"]);
+  setThemeValue(
+    "header-gradient-color-start",
+    THEME["header-gradient-color-start"],
+  );
+  setThemeValue(
+    "header-gradient-color-end",
+    THEME["header-gradient-color-end"],
+  );
 
   return (
-    <Navbar bg="primary" variant="dark" expand="lg" className={`${styles["navbar"]} mb-5`}>
+    <Navbar
+      bg="primary"
+      variant="dark"
+      expand="lg"
+      className={`${styles["navbar"]} mb-5`}
+    >
       <Container>
         <Navbar.Brand href="/">
           <Row className="align-items-baseline g-1">
@@ -19,7 +29,9 @@ const Header = () => {
               <Logo className={`${styles["navbar-logo"]} border-end`} />
             </Col>
             <Col>
-              <span className={`${styles["navbar-title"]} text-white`}>{TITLE}</span>
+              <span className={`${styles["navbar-title"]} text-white`}>
+                {TITLE}
+              </span>
             </Col>
           </Row>
         </Navbar.Brand>

@@ -1,37 +1,32 @@
-declare module "*.module.css" {
-  const classes: { [key: string]: string };
-  export default classes;
-}
-
-type StatusStyle = {
+export type StatusStyle = {
   icon: string;
   text: string;
   color: string;
 };
 
-type StatusT = {
+export type StatusT = {
   [key: string]: StatusStyle;
 };
 
-type InternalCategoryT = {
+export type InternalCategoryT = {
   remote_name: string;
   displayed_name: string;
 };
 
-type CategoryT = {
+export type CategoryT = {
   remote_name: string;
   displayed_name: string;
   items: InternalCategoryT[];
 };
 
-type ApiT = {
+export type ApiT = {
   endpoint: string;
   reportName: string;
   groupType: string;
   supergroupType: string;
 };
 
-type DowntimeT = {
+export type DowntimeT = {
   key?: string;
   service: string;
   hostname: string;
@@ -39,7 +34,7 @@ type DowntimeT = {
   end_time: string;
 };
 
-type DownTimeApiResponseT = {
+export type DownTimeApiResponseT = {
   status: {
     message: string;
     code: string;
@@ -48,11 +43,11 @@ type DownTimeApiResponseT = {
     {
       date: string;
       endpoints: Array<DowntimeT> | [];
-    }
+    },
   ];
 };
 
-type StatusServiceGroupT = {
+export type StatusServiceGroupT = {
   groups: [
     {
       name: string;
@@ -61,13 +56,13 @@ type StatusServiceGroupT = {
         {
           timestamp: string;
           value: number;
-        }
+        },
       ];
-    }
+    },
   ];
 };
 
-type ResultServiceGroupsT = {
+export type ResultServiceGroupsT = {
   results: [
     {
       name: string;
@@ -77,13 +72,13 @@ type ResultServiceGroupsT = {
           timestamp: string;
           availability: number;
           reliability: number;
-        }
+        },
       ];
-    }
+    },
   ];
 };
 
-type ResultServicesT = {
+export type ResultServicesT = {
   results: [
     {
       name: string;
@@ -100,15 +95,15 @@ type ResultServicesT = {
               unknown: number;
               uptime: number;
               downtime: number;
-            }
+            },
           ];
-        }
+        },
       ];
-    }
+    },
   ];
 };
 
-type ReportT = {
+export type ReportT = {
   status: {
     message: string;
     code: number;
@@ -159,20 +154,20 @@ type ReportT = {
           id: string;
           name: string;
           type: string;
-        }
+        },
       ];
       filter_tags: [
         {
           name: string;
           value: string;
           context: string;
-        }
+        },
       ];
-    }
+    },
   ];
 };
 
-type ThemeT = {
+export type ThemeT = {
   "header-gradient-color-start": string;
   "header-gradient-color-end": string;
   "footer-gradient-color-start": string;
