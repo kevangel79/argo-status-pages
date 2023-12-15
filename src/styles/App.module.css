@@ -600,6 +600,14 @@ a.button:hover {
   );
 }
 
+.footer-links {
+  color: var(--footer-copyright-text-color);
+  text-align: left;
+  margin-top: 25px;
+  border-bottom: 40px;
+  font-size: 0.85rem;
+}
+
 @media screen and (min-width: 24rem) {
   .copyright {
     color: var(--footer-copyright-text-color);
@@ -628,6 +636,9 @@ a.button:hover {
 .align_right {
   margin-left: auto;
   margin-right: 0;
+}
+.align_left {
+  align-items: left;
 }
 .text_center {
   text-align: center;

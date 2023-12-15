@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import StatusTable from "./components/StatusTable";
 import Downtimes from "./components/Downtimes";
 import Uptime from "./components/Uptime";
+import About from "./components/About";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -63,6 +64,11 @@ function App() {
               </div>
             }
           />
+          <Route
+            path="/about"
+            element={<About />}
+          >
+          </Route>
           <Route
             path="/downtimes"
             element={
