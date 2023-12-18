@@ -31,10 +31,16 @@ const STATUS: StatusT = {
   },
 };
 
+const TENANTS = {
+  "EOSC": "https://eosc-portal.eu/",
+  "EUDAT": "https://eudat.eu/",
+  "UNKNOWN": "https://www.grnet.gr"
+};
+
 const CATEGORIES: CategoryT[] = config.categories;
 const THEME: ThemeT = config.theme;
 const API: ApiT = config.api;
 const TITLE: string = config.title;
 const COPYRIGHT: string = config.copyright;
 
-export { CATEGORIES, STATUS, THEME, API, TITLE, COPYRIGHT };
+export { CATEGORIES, STATUS, THEME, API, TITLE, COPYRIGHT, TENANTS };
