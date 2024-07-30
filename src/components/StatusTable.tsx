@@ -215,7 +215,7 @@ const StatusTable = (props: PropsT) => {
         });
       }
     });
-    console.log(divs);
+
     return divs;
   };
 
@@ -264,18 +264,20 @@ const StatusTable = (props: PropsT) => {
         <div>
           {Object.keys(grouped_services).map((service, index) => {
             let result: any = {};
+            // if grouped results exist 
             if (props.groupResults.results) {
-              for (const i of props.groupResults.results) {
-                if (
-                  CATEGORIES.filter(
-                    (x) => x.displayed_name === i["name"].replaceAll("_", " "),
-                  ).length > 0
-                ) {
-                  result = i["results"][0];
+              // iterate over the array of grouped results
+              for (const resultItem of props.groupResults.results) {
+                // if the group item is equal to service variable = (remote name of the group) and has a results array with at least one item
+                if (resultItem["name"] === service && resultItem["results"] && resultItem["results"].length > 0)
+                {
+                  // the result is in the item's result array (first)
+                  result = resultItem["results"][0];
                   break;
                 }
               }
             }
+
             let availability = null;
             let reliability = null;
             if (result["availability"]) {
